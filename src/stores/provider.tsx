@@ -1,24 +1,23 @@
 "use client";
 
-import { createContext, useContext, useRef, type ReactNode } from "react";
+import {
+  FC,
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useRef,
+} from "react";
 import { useStore, type StoreApi } from "zustand";
 
-import {
-  createMainStore,
-  initCounterStore,
-  type CounterStore,
-} from "@/stores/store";
+import { initStores, type IStores } from "@/stores/store";
+import { createStores } from ".";
 
-export const StoreContext = createContext<StoreApi<CounterStore> | null>(null);
+export const StoreContext = createContext<StoreApi<IStores> | null>(null);
 
-export interface StoreProviderProps {
-  children: ReactNode;
-}
-
-export const StoreProvider = ({ children }: StoreProviderProps) => {
-  const storeRef = useRef<StoreApi<CounterStore>>();
+export const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
+  const storeRef = useRef<StoreApi<IStores>>();
   if (!storeRef.current) {
-    storeRef.current = createMainStore(initCounterStore());
+    storeRef.current = createStores(initStores());
   }
 
   return (
@@ -28,7 +27,7 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
   );
 };
 
-export const useStores = <T,>(selector: (store: CounterStore) => T): T => {
+export const useStores = <T,>(selector: (store: IStores) => T): T => {
   const counterStoreContext = useContext(StoreContext);
 
   if (!counterStoreContext) {

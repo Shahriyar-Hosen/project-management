@@ -1,5 +1,3 @@
-import { createStore } from "zustand/vanilla";
-
 export type CounterState = {
   count: number;
 };
@@ -9,20 +7,12 @@ export type CounterActions = {
   incrementCount: () => void;
 };
 
-export type CounterStore = CounterState & CounterActions;
+export type IStores = CounterState & CounterActions;
 
-export const initCounterStore = (): CounterState => {
+export const initStores = (): CounterState => {
   return { count: new Date().getFullYear() };
 };
 
 export const defaultInitState: CounterState = {
   count: 0,
-};
-
-export const createMainStore = (initState: CounterState = defaultInitState) => {
-  return createStore<CounterStore>()((set) => ({
-    ...initState,
-    decrementCount: () => set((state) => ({ count: state.count - 1 })),
-    incrementCount: () => set((state) => ({ count: state.count + 1 })),
-  }));
 };
