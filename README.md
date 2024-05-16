@@ -1,4 +1,4 @@
-<h1 align="center">Project Management </h1>
+<h1 align="center">Project Management</h1>
 
 ### [Live Preview](https://project-management-tools.vercel.app)
 
