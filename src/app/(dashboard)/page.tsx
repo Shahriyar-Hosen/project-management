@@ -2,9 +2,24 @@
 
 import { useStores } from "@/stores/provider";
 import { NextPage } from "next";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
-  const { count, incrementCount, decrementCount } = useStores((state) => state);
+  const { user, logout, count, incrementCount, decrementCount } = useStores(
+    (state) => state
+  );
+  const router = useRouter();
+
+  useEffect(() => {
+    !user && router.push("/login");
+  }, [router, user]);
+
+  const logoutFn = () => {
+    localStorage.removeItem("user");
+    logout();
+    router.push("/login");
+  };
 
   return (
     <main>
@@ -18,6 +33,7 @@ const Home: NextPage = () => {
           Decrement Count
         </button>
       </div>
+      <button onClick={logoutFn}>logout</button>
       <h1>Home</h1>
     </main>
   );

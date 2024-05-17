@@ -1,19 +1,19 @@
 "use client";
 
-import { login } from "@/server/actions";
+import { findSingleUser } from "@/server/actions";
+import { useStores } from "@/stores/provider";
 import { useCallback, useEffect, useState } from "react";
 
 export const useLogin = () => {
+  const { login } = useStores((state) => state);
   const [email, setEmail] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const [user, setUser] = useState<IUser>();
 
   const errorStatus = (message: string) => {
     setIsLoading(false);
     setIsSuccess(false);
-    setUser(undefined);
     setError(message);
   };
 
@@ -21,12 +21,14 @@ export const useLogin = () => {
     if (email) {
       setIsLoading(true);
       try {
-        const user = await login(email);
+        const user = await findSingleUser(email);
         if (user) {
           setIsLoading(false);
           setIsSuccess(true);
           setError("");
-          setUser(user);
+
+          localStorage.setItem("user", JSON.stringify(user));
+          login(user);
         } else {
           errorStatus("User not found");
         }
@@ -34,12 +36,12 @@ export const useLogin = () => {
         errorStatus(error);
       }
     }
-  }, [email]);
+  }, [email, login]);
 
   useEffect(() => {
     userLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email]);
 
-  return { user, isSuccess, isLoading, error, setEmail };
+  return { isSuccess, isLoading, error, setEmail };
 };

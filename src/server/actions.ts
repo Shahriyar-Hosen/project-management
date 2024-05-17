@@ -2,7 +2,9 @@
 
 import { db } from "./db";
 
-export const login = async (email: string): Promise<IUser | undefined> => {
+export const findSingleUser = async (
+  email: string
+): Promise<IUser | undefined> => {
   try {
     const user = await db.user.findUnique({
       where: { email },
