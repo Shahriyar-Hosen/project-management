@@ -42,7 +42,7 @@ const LoginPage: NextPage = () => {
   if (isLoading) return <Loading />;
 
   const From = () => (
-    <div className="sm:min-h-[400px] min-w-[325px] bg-white/80 flex items-center justify-center rounded-lg shadow-lg py-8 px-4 sm:px-6 lg:px-8">
+    <section className="sm:min-h-[400px] min-w-[325px] bg-white/80 flex items-center justify-center rounded-lg shadow-lg py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
           <Image
@@ -103,7 +103,7 @@ const LoginPage: NextPage = () => {
           </div>
         </form>
       </div>
-    </div>
+    </section>
   );
 
   const UserList = () => {
@@ -122,8 +122,9 @@ const LoginPage: NextPage = () => {
         <span>{email}</span>
       </li>
     );
+
     return (
-      <div className="sm:min-h-[400px] min-w-[325px] bg-white/80 flex items-center justify-center rounded-lg shadow-lg py-8 px-4 sm:px-6 lg:px-8">
+      <section className="sm:min-h-[400px] min-w-[325px] bg-white/80 flex items-center justify-center rounded-lg shadow-lg py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full text-left space-y-8">
           <div className="rounded-md -space-y-px">
             <div className="flex justify-between items-center mb-3 px-2">
@@ -153,15 +154,15 @@ const LoginPage: NextPage = () => {
             </ul>
           </div>
         </div>
-      </div>
+      </section>
     );
   };
 
   return (
-    <div className="flex flex-col sm:flex-row-reverse items-center justify-center min-h-screen gap-5">
+    <main className="flex flex-col sm:flex-row-reverse items-center justify-center gap-5  min-h-screen">
       <From />
       <UserList />
-    </div>
+    </main>
   );
 };
 
