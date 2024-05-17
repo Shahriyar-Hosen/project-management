@@ -1,0 +1,30 @@
+[
+  {
+    "email": "salman@gamil.com",
+    "password": "$2a$10$UGD4LzHEgcOJ3n2URvslRO5Y/DSKpGOZDdlcIWWobGWDy0WKJ3vfC",
+    "name": "Salman Ahamad",
+    "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
+    "id": 1
+  },
+  {
+    "email": "saikot@gmail.com",
+    "password": "$2a$10$HRvg04J8ICtdjxwj3pKEGuiBWB/lZeWq31P/XQnt1JEYzkowkwqQe",
+    "name": "Saikot",
+    "avatar": "https://i.ibb.co/5jTNNnT/avatar-2.png",
+    "id": 2
+  },
+  {
+    "email": "shahriyar@hosen.com",
+    "password": "$2a$10$wbNb0/C/Vt6/UdGEYhIISO8q03lCc0mSnQsJVqlzsVg6yQGnEo5BO",
+    "name": "Shahriyar Hosen",
+    "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
+    "id": 3
+  },
+  {
+    "email": "hello@world.com",
+    "password": "$2a$10$wbNb0/C/Vt6/UdGEYhIISO8q03lCc0mSnQsJVqlzsVg6yQGnEo5BO",
+    "name": "Hello world",
+    "avatar": "https://i.ibb.co/VpNTyCq/avatar-4.png",
+    "id": 3
+  }
+]
