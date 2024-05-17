@@ -1,8 +1,9 @@
 "use client";
 
 import { useStores } from "@/stores/provider";
+import { NextPage } from "next";
 
-const Home = () => {
+const Home: NextPage = () => {
   const { count, incrementCount, decrementCount } = useStores((state) => state);
 
   return (
