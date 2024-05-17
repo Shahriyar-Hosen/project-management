@@ -1,4 +1,4 @@
-import { StoreProvider } from "@/stores/provider";
+import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { FC } from "react";
@@ -15,7 +15,7 @@ const RootLayout: FC<Readonly<IChildren>> = ({ children }) => {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StoreProvider>{children}</StoreProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
