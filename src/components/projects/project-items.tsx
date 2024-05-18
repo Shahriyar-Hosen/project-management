@@ -4,16 +4,26 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
-import { ProjectItem } from ".";
+import { ProjectItem, ProjectSkeleton } from ".";
 
 export const ProjectItems: FC<
   {
-    projects: IProject[];
+    projects?: IProject[];
     isLoading: boolean;
     isError: boolean;
   } & IRefetch
 > = ({ projects, isError, isLoading, refetch }) => {
   let content;
+
+  if (!projects) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 px-10 mt-4 gap-6 overflow-auto">
+        {Array.from(Array(8).keys()).map((el) => (
+          <ProjectSkeleton key={el} />
+        ))}
+      </div>
+    );
+  }
 
   if (!isLoading && isError) {
     content = (

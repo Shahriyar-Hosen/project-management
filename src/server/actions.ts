@@ -75,9 +75,16 @@ export const addProjectMember = async ({ email, name }: IAddMember) => {
   }
 };
 
-export const getAllProject = async () => {
+export const getAllProject = async ({ email }: { email: string }) => {
   try {
     const result = await db.project.findMany({
+      where: {
+        members: {
+          some: {
+            userEmail: email,
+          },
+        },
+      },
       include: {
         members: {
           include: {

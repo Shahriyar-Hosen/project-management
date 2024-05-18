@@ -1,42 +1,26 @@
 import { getAllProject } from "@/server/actions";
+import { useStores } from "@/stores/provider";
 import { useQuery } from "@tanstack/react-query";
-import { Oval } from "react-loader-spinner";
 import { ProjectHead, ProjectItems } from ".";
 
-const fetchProjects = async () => await getAllProject();
+const fetchProjects = async (email: string) => await getAllProject({ email });
 
 export const TeamsBody = () => {
+  const { user } = useStores((state) => state);
   const { data, isError, isLoading, refetch } = useQuery({
     queryKey: ["projects"],
-    queryFn: fetchProjects,
+    queryFn: () => fetchProjects(user?.email || ""),
   });
 
   return (
     <>
       <ProjectHead refetch={refetch} />
-      {data ? (
-        <ProjectItems
-          projects={data}
-          isError={isError}
-          isLoading={isLoading}
-          refetch={refetch}
-        />
-      ) : (
-        <div className="px-10 mt-4 h-full flex items-center justify-center">
-          <Oval
-            height={70}
-            width={70}
-            color="#5b21b6"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-            ariaLabel="oval-loading"
-            secondaryColor="#ddd6fe"
-            strokeWidth={4}
-            strokeWidthSecondary={3}
-          />
-        </div>
-      )}
+      <ProjectItems
+        projects={data}
+        isError={isError}
+        isLoading={isLoading}
+        refetch={refetch}
+      />
     </>
   );
 };
