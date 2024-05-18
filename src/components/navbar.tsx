@@ -1,21 +1,17 @@
 "use client";
 
+import { useCurrentUser } from "@/hooks/use-auth";
 import { useStores } from "@/stores/provider";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent } from "react";
 
 export const Navbar = () => {
-  const { user, logout } = useStores((state) => state);
+  const { logout } = useStores((state) => state);
   const router = useRouter();
-  const [userInfo, setUserInfo] = useState<IUser>();
-  const { name = "User Name", avatar = "/logo.png" } = userInfo || {};
-
-  useEffect(() => {
-    user && setUserInfo(user);
-  }, [user]);
+  const { name = "User Name", avatar = "/logo.png" } = useCurrentUser() || {};
 
   const filterBySearch = (value: string) => {
     console.log(value);
@@ -40,7 +36,6 @@ export const Navbar = () => {
   const handleLogout = () => {
     logout();
     router.push("/login");
-    localStorage.clear();
   };
 
   return (

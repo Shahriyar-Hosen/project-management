@@ -1,5 +1,6 @@
 "use client";
 
+import { ProjectHead } from "@/components/projects";
 import { useStores } from "@/stores/provider";
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
 
   return (
     <main>
+      <ProjectHead />
       <div>
         Count: {count}
         <hr />
