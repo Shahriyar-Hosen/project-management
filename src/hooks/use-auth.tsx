@@ -45,3 +45,14 @@ export const useLogin = () => {
 
   return { isSuccess, isLoading, error, setEmail };
 };
+
+export const useCurrentUser = () => {
+  const { user } = useStores((state) => state);
+  const [userInfo, setUserInfo] = useState<IUser>();
+
+  useEffect(() => {
+    user && setUserInfo(user);
+  }, [user]);
+
+  return userInfo;
+};
