@@ -1,12 +1,10 @@
-// "use client";
-
 import {
   faCircleExclamation,
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
-import { ProjectItem } from "./project-item";
+import { ProjectItem } from ".";
 
 export const ProjectItems: FC<
   {
@@ -16,6 +14,7 @@ export const ProjectItems: FC<
   } & IRefetch
 > = ({ projects, isError, isLoading, refetch }) => {
   let content;
+
   if (!isLoading && isError) {
     content = (
       <div className="px-10 mt-4 h-full flex flex-col items-center justify-center">

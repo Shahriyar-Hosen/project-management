@@ -1,11 +1,6 @@
 import { cn } from "@/lib/utils";
 import { deleteProject } from "@/server/actions";
-import {
-  faAdd,
-  faEllipsisVertical,
-  faEye,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "antd";
 import { FC, useState } from "react";
@@ -19,10 +14,9 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
   refetch,
   description,
 }) => {
-  // local states
   const [isOpen, setIsOpen] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
-  const [isInfoOpen, setIsInfoOpen] = useState(false);
+  // const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
   const deleteHandler = async () => {
@@ -33,37 +27,30 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
   };
 
   return (
-    <div className="relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100">
-      <div className="absolute top-0 right-0 hidden items-center mt-3 mr-2 group-hover:flex">
+    <div className="relative flex flex-col items-start p-4 mt-3 bg-cyan-50/50 rounded-lg bg-opacity-90 group hover:bg-opacity-100">
+      <div className="absolute top-0 right-0 opacity-0 items-center mt-3 mr-2 group-hover:opacity-100 transition-all delay-150">
         <button
-          className={`text-base transition delay-75 ease-in-out scale-0 text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 ${
-            isOptionsOpen && "scale-90"
-          }`}
-          onClick={() => setIsInfoOpen(true)}
-        >
-          <FontAwesomeIcon icon={faEye} />
-        </button>
-        <button
-          className={`text-base transition delay-75 ease-in-out scale-0 text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 ${
-            isOptionsOpen && "scale-90"
-          }`}
-          onClick={() => setDeleteModal(true)}
-        >
-          <FontAwesomeIcon icon={faTrash} />
-        </button>
-        <button
-          className={`text-base transition delay-75 ease-in-out scale-0 text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 ${
-            isOptionsOpen && "scale-90"
-          }`}
+          className={
+            "text-base transition delay-75 ease-in-out text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 scale-90"
+          }
           onClick={() => setIsOpen(true)}
         >
           <FontAwesomeIcon icon={faAdd} />
         </button>
         <button
-          onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-          className="text-base text-gray-500 px-2 py-1 ml-1 rounded hover:bg-gray-200 hover:text-gray-700"
+          className={
+            "text-base transition delay-75 ease-in-out text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 scale-90"
+          }
         >
-          <FontAwesomeIcon icon={faEllipsisVertical} />
+          <FontAwesomeIcon icon={faEye} />
+        </button>
+        <button
+          className={
+            "text-base transition delay-75 ease-in-out text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 scale-90"
+          }
+          onClick={() => setDeleteModal(true)}
+        >
+          <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>
       <span
@@ -98,7 +85,6 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
             />
           </svg>
           <span className="ml-1 leading-none">
-            {/* {moment(date).format('MMM DD')} */}
             {new Date(date).toLocaleDateString()}
           </span>
         </div>
@@ -118,20 +104,12 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
           ))}
         </div>
       </div>
-      {/* {isOpen && (
-        <TeamMemberModal
-          id={id}
-          members={members}
-          setIsOpen={setIsOpen}
-          setIsOptionsOpen={setIsOptionsOpen}
-        />
-      )} */}
-      {/* {isInfoOpen && <TeamInfoModal id={id} setIsInfoOpen={setIsInfoOpen} />} */}
+
       {deleteModal && (
         <DeleteModal
           deleteHandler={deleteHandler}
           setDeleteModal={setDeleteModal}
-          message="Are you sure you want to delete this team?"
+          message="Are you sure you want to delete this Project?"
         />
       )}
     </div>
