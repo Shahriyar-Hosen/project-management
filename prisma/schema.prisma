@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String          @unique
+  password      String
+  avatar        String
+  Project       Project?        @relation(fields: [projectId], references: [id])
+  projectId     String?         @db.ObjectId
+  ProjectMember ProjectMember[]
+}
+
+enum ProjectColor {
+  red
+  green
+  yellow
+  violet
+  pink
+  orange
+  teal
+}
+
+model Project {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  name        String          @unique
+  description String
+  color       ProjectColor
+  email       String
+  date        DateTime
+  members     ProjectMember[]
+  User        User[]
+}
+
+model ProjectMember {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  projectName String
+  userEmail   String
+  project     Project @relation(fields: [projectName], references: [name])
+  user        User    @relation(fields: [userEmail], references: [email])
+}
+
+enum TaskStatus {
+  Backlog
+  Ready
+  Doing
+  Review
+  Blocked
+  Done
+}
+
+model Task {
+  id      String     @id @default(auto()) @map("_id") @db.ObjectId
+  project String
+  status  TaskStatus
+  color   String
+  title   String
+  email   String
+  avatar  String
+  date    DateTime
+}

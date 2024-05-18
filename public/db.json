@@ -1,0 +1,184 @@
+{
+  "users": [
+    {
+      "email": "salman@gamil.com",
+      "password": "$2a$10$UGD4LzHEgcOJ3n2URvslRO5Y/DSKpGOZDdlcIWWobGWDy0WKJ3vfC",
+      "name": "Salman Ahamad",
+      "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
+      "id": 1
+    },
+    {
+      "email": "saikot@gmail.com",
+      "password": "$2a$10$HRvg04J8ICtdjxwj3pKEGuiBWB/lZeWq31P/XQnt1JEYzkowkwqQe",
+      "name": "Saikot",
+      "avatar": "https://i.ibb.co/5jTNNnT/avatar-2.png",
+      "id": 2
+    },
+    {
+      "email": "shahriyar@hosen.com",
+      "password": "$2a$10$wbNb0/C/Vt6/UdGEYhIISO8q03lCc0mSnQsJVqlzsVg6yQGnEo5BO",
+      "name": "Shahriyar Hosen",
+      "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
+      "id": 3
+    },
+    {
+      "email": "hello@world.com",
+      "password": "$2a$10$wbNb0/C/Vt6/UdGEYhIISO8q03lCc0mSnQsJVqlzsVg6yQGnEo5BO",
+      "name": "Hello world",
+      "avatar": "https://i.ibb.co/VpNTyCq/avatar-4.png",
+      "id": 3
+    }
+  ],
+  "teams": [
+    {
+      "team": "design",
+      "title": "A design is a plan or specification for the construction",
+      "color": "red",
+      "email": "shahriyar@hosen.com",
+      "date": 1664131584282,
+      "members": [
+        {
+          "email": "shahriyar@hosen.com",
+          "name": "Shahriyar Hosen",
+          "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
+          "id": 3
+        },
+        {
+          "email": "salman@gamil.com",
+          "password": "$2a$10$UGD4LzHEgcOJ3n2URvslRO5Y/DSKpGOZDdlcIWWobGWDy0WKJ3vfC",
+          "name": "Salman Ahamad",
+          "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
+          "id": 1
+        },
+        {
+          "email": "saikot@gmail.com",
+          "password": "$2a$10$HRvg04J8ICtdjxwj3pKEGuiBWB/lZeWq31P/XQnt1JEYzkowkwqQe",
+          "name": "Saikot",
+          "avatar": "https://i.ibb.co/5jTNNnT/avatar-2.png",
+          "id": 2
+        }
+      ],
+      "id": 1
+    },
+    {
+      "team": "copyright",
+      "title": "A design is a plan or specification for the construction",
+      "color": "yellow",
+      "email": "shahriyar@hosen.com",
+      "date": 1664131599857,
+      "members": [
+        {
+          "email": "shahriyar@hosen.com",
+          "name": "Shahriyar Hosen",
+          "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
+          "id": 3
+        },
+        {
+          "email": "salman@gamil.com",
+          "password": "$2a$10$UGD4LzHEgcOJ3n2URvslRO5Y/DSKpGOZDdlcIWWobGWDy0WKJ3vfC",
+          "name": "Salman Ahamad",
+          "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
+          "id": 1
+        }
+      ],
+      "id": 2
+    },
+    {
+      "team": "ui",
+      "title": "A design is a plan or specification for the construction",
+      "color": "violet",
+      "email": "shahriyar@hosen.com",
+      "date": 1664131884339,
+      "members": [
+        {
+          "email": "shahriyar@hosen.com",
+          "name": "Shahriyar Hosen",
+          "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
+          "id": 3
+        }
+      ],
+      "id": 3
+    },
+    {
+      "team": "dev",
+      "title": "Join the Apple Developer Program to reach customers",
+      "color": "red",
+      "email": "salman@gamil.com",
+      "date": 1664134951836,
+      "members": [
+        {
+          "email": "salman@gamil.com",
+          "name": "Salman Ahamad",
+          "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
+          "id": 1
+        },
+        {
+          "email": "shahriyar@hosen.com",
+          "password": "$2a$10$wbNb0/C/Vt6/UdGEYhIISO8q03lCc0mSnQsJVqlzsVg6yQGnEo5BO",
+          "name": "Shahriyar Hosen",
+          "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
+          "id": 3
+        }
+      ],
+      "id": 4
+    },
+    {
+      "team": "qa",
+      "title": "Join the Apple Developer Program to reach customers",
+      "color": "yellow",
+      "email": "salman@gamil.com",
+      "date": 1664135569662,
+      "members": [
+        {
+          "email": "salman@gamil.com",
+          "name": "Salman Ahamad",
+          "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
+          "id": 1
+        }
+      ],
+      "id": 5
+    }
+  ],
+  "projects": [
+    {
+      "team": "copyright",
+      "status": "backlog",
+      "color": "yellow",
+      "title": "A design is a plan or specification for the construction",
+      "email": "shahriyar@hosen.com",
+      "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
+      "date": 1664131621113,
+      "id": 1
+    },
+    {
+      "team": "design",
+      "status": "ready",
+      "color": "red",
+      "title": "A design is a plan or specification for the construction",
+      "email": "shahriyar@hosen.com",
+      "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
+      "date": 1664131626425,
+      "id": 2
+    },
+    {
+      "team": "qa",
+      "status": "backlog",
+      "color": "yellow",
+      "title": "Join the Apple Developer Program to reach customers",
+      "email": "salman@gamil.com",
+      "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
+      "date": 1664135591602,
+      "id": 3
+    },
+    {
+      "team": "dev",
+      "status": "doing",
+      "color": "red",
+      "title": "Join the Apple Developer Program to reach customers",
+      "email": "salman@gamil.com",
+      "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
+      "date": 1664135621564,
+      "id": 4
+    }
+  ]
+}
