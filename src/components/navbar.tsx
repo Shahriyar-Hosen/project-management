@@ -1,6 +1,7 @@
 "use client";
 
 import { useCurrentUser } from "@/hooks/use-auth";
+import { debounce } from "@/lib/utils";
 import { useStores } from "@/stores/provider";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,20 +16,6 @@ export const Navbar = () => {
 
   const filterBySearch = (value: string) => {
     console.log(value);
-  };
-
-  const debounce = (fn: (value: string) => void, delay: number) => {
-    let timeoutId: NodeJS.Timeout | number | undefined;
-
-    return (e: FormEvent) => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-
-      timeoutId = setTimeout(() => {
-        fn((e.target as HTMLInputElement).value);
-      }, delay);
-    };
   };
 
   const handleSearch = debounce((value) => filterBySearch(value), 500);

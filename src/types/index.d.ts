@@ -14,7 +14,7 @@ declare interface IUser {
   password?: string;
 }
 
-interface IMember {
+declare interface IMember {
   id?: string;
   projectName: string;
   userEmail: string;

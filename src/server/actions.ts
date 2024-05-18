@@ -59,6 +59,21 @@ export const addProject = async ({ email, ...others }: IAddProject) => {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
   }
 };
+type IAddMember = { name: string; email: string };
+export const addProjectMember = async ({ email, name }: IAddMember) => {
+  try {
+    const result = await db.projectMember.create({
+      data: {
+        projectName: name,
+        userEmail: email,
+      },
+    });
+
+    return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
 
 export const getAllProject = async () => {
   try {

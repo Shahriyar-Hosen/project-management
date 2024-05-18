@@ -4,7 +4,8 @@ import { faAdd, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "antd";
 import { FC, useState } from "react";
-import DeleteModal from "../common/delete-modal";
+import { ProjectMemberModal } from ".";
+import { DeleteModal } from "../common";
 
 export const ProjectItem: FC<IProject & IRefetch> = ({
   color,
@@ -14,9 +15,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
   refetch,
   description,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
-  // const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [memberModal, setMemberModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
   const deleteHandler = async () => {
@@ -33,7 +32,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
           className={
             "text-base transition delay-75 ease-in-out text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 scale-90"
           }
-          onClick={() => setIsOpen(true)}
+          onClick={() => setMemberModal(true)}
         >
           <FontAwesomeIcon icon={faAdd} />
         </button>
@@ -105,6 +104,13 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
         </div>
       </div>
 
+      {memberModal && (
+        <ProjectMemberModal
+          refetch={refetch}
+          members={members}
+          setIsOpen={setMemberModal}
+        />
+      )}
       {deleteModal && (
         <DeleteModal
           deleteHandler={deleteHandler}

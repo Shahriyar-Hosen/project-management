@@ -7,7 +7,7 @@ interface IDeleteModal {
   isNotUser?: boolean;
 }
 
-const DeleteModal: FC<IDeleteModal> = ({
+export const DeleteModal: FC<IDeleteModal> = ({
   message,
   setDeleteModal,
   deleteHandler,
@@ -55,5 +55,3 @@ const DeleteModal: FC<IDeleteModal> = ({
     </div>
   );
 };
-
-export default DeleteModal;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCurrentUser } from "@/hooks/use-auth";
-import { cn } from "@/lib/utils";
+import { cn, debounce } from "@/lib/utils";
 import { addProject, isExistProject } from "@/server/actions";
 import { ProjectColor } from "@prisma/client";
 import {
@@ -53,20 +53,6 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({
   const filterBySearch = (value: string) => {
     console.log(value);
     setName(value.toLocaleLowerCase());
-  };
-
-  const debounce = (fn: (value: string) => void, delay: number) => {
-    let timeoutId: NodeJS.Timeout | number | undefined;
-
-    return (e: FormEvent) => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-
-      timeoutId = setTimeout(() => {
-        fn((e.target as HTMLInputElement).value);
-      }, delay);
-    };
   };
 
   const handleSearch = debounce((value) => filterBySearch(value), 500);
