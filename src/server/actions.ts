@@ -66,7 +66,14 @@ export const getAllProject = async () => {
       include: {
         members: {
           include: {
-            user: true,
+            user: {
+              select: {
+                name: true,
+                email: true,
+                avatar: true,
+                id: true,
+              },
+            },
           },
         },
       },

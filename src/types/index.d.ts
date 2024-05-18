@@ -14,6 +14,13 @@ declare interface IUser {
   password?: string;
 }
 
+interface IMember {
+  id?: string;
+  projectName: string;
+  userEmail: string;
+  user: IUser;
+}
+
 declare interface IProject {
   id?: string;
   name: string;
@@ -21,7 +28,7 @@ declare interface IProject {
   description: string;
   color: IProjectColor;
   date: Date;
-  members: IUser[];
+  members: IMember[];
 }
 
 declare type IProjectColor =
