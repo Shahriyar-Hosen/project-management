@@ -25,7 +25,7 @@ const DeleteModal: FC<IDeleteModal> = ({
 
             <div className="flex gap-3">
               <button
-                onClick={deleteHandler}
+                onClick={() => deleteHandler()}
                 className="bg-violet-300 text-violet-800 font-semibold transition-all ease-in-out hover:bg-violet-600 hover:text-violet-100  px-6 py-1 rounded-lg"
               >
                 Sure!

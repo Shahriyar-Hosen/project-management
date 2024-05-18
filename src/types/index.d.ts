@@ -22,7 +22,7 @@ interface IMember {
 }
 
 declare interface IProject {
-  id?: string;
+  id: string;
   name: string;
   email: string;
   description: string;
@@ -39,3 +39,5 @@ declare type IProjectColor =
   | "pink"
   | "orange"
   | "teal";
+
+declare type IRefetch = { refetch: () => void };

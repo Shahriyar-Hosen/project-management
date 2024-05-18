@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { ProjectCardModal } from ".";
 
 type NotificationType = "success" | "info" | "warning" | "error";
@@ -8,7 +8,7 @@ export interface Notification {
   message?: string;
   description?: string;
 }
-export const ProjectHead = () => {
+export const ProjectHead: FC<IRefetch> = ({ refetch }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [api, contextHolder] = notification.useNotification();
 
@@ -44,6 +44,7 @@ export const ProjectHead = () => {
 
       {isOpen && (
         <ProjectCardModal
+          refetch={refetch}
           setIsOpen={setIsOpen}
           openNotification={openNotification}
         />

@@ -3,9 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Oval } from "react-loader-spinner";
 import { ProjectHead, ProjectItems } from ".";
 
-const fetchProjects = async () => {
-  return await getAllProject();
-};
+const fetchProjects = async () => await getAllProject();
 
 export const TeamsBody = () => {
   const { data, isError, isLoading, refetch } = useQuery({
@@ -15,9 +13,14 @@ export const TeamsBody = () => {
 
   return (
     <>
-      <ProjectHead />
+      <ProjectHead refetch={refetch} />
       {data ? (
-        <ProjectItems projects={data} isError={isError} isLoading={isLoading} />
+        <ProjectItems
+          projects={data}
+          isError={isError}
+          isLoading={isLoading}
+          refetch={refetch}
+        />
       ) : (
         <div className="px-10 mt-4 h-full flex items-center justify-center">
           <Oval

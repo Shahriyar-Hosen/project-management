@@ -84,3 +84,22 @@ export const getAllProject = async () => {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
   }
 };
+
+export const deleteProject = async ({ name }: { name: string }) => {
+  try {
+    await db.projectMember.deleteMany({
+      where: {
+        projectName: name,
+      },
+    });
+    await db.project.delete({
+      where: {
+        name,
+      },
+    });
+
+    return { name };
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};

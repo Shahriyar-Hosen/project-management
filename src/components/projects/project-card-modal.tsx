@@ -17,9 +17,10 @@ import { ErrorMessage, Notification } from ".";
 type IProjectCardModal = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   openNotification: (props: Notification) => void;
-};
+} & IRefetch;
 
 export const ProjectCardModal: FC<IProjectCardModal> = ({
+  refetch,
   setIsOpen,
   openNotification,
 }) => {
@@ -81,8 +82,9 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({
         email: user.email,
       })
         .then((res) => {
-          setIsOpen(false);
+          refetch();
           setLoading(false);
+          setIsOpen(false);
           openNotification({
             type: "success",
             message: "Project Successfully Add!",

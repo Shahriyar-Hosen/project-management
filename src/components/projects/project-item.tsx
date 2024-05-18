@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { deleteProject } from "@/server/actions";
 import {
   faAdd,
   faEllipsisVertical,
@@ -10,14 +11,13 @@ import { Image } from "antd";
 import { FC, useState } from "react";
 import DeleteModal from "../common/delete-modal";
 
-export const ProjectItem: FC<IProject> = ({
+export const ProjectItem: FC<IProject & IRefetch> = ({
   color,
   date,
-  description,
-  email,
   name,
-  id,
   members,
+  refetch,
+  description,
 }) => {
   // local states
   const [isOpen, setIsOpen] = useState(false);
@@ -25,8 +25,11 @@ export const ProjectItem: FC<IProject> = ({
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
-  const deleteHandler = () => {
-    // deleteTeam({ id, email });
+  const deleteHandler = async () => {
+    await deleteProject({ name }).then((res) => {
+      setDeleteModal(false);
+      refetch();
+    });
   };
 
   return (
