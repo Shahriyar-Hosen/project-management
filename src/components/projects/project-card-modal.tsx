@@ -3,7 +3,6 @@
 import { useCurrentUser } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 import { addProject, isExistProject } from "@/server/actions";
-
 import { ProjectColor } from "@prisma/client";
 import {
   Dispatch,
@@ -13,14 +12,22 @@ import {
   useEffect,
   useState,
 } from "react";
-import { ErrorMessage } from "./error";
+import { ErrorMessage, Notification } from ".";
 
-type IProjectCardModal = { setIsOpen: Dispatch<SetStateAction<boolean>> };
-export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
+type IProjectCardModal = {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  openNotification: (props: Notification) => void;
+};
+
+export const ProjectCardModal: FC<IProjectCardModal> = ({
+  setIsOpen,
+  openNotification,
+}) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [color, setColor] = useState<ProjectColor>("red");
   const [disabled, setDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [projectExist, setProjectExist] = useState<boolean | undefined>(false);
 
   useEffect(() => {
@@ -35,9 +42,12 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
 
   useEffect(() => {
     const isDisabled =
-      (projectExist ? true : false) || description?.length === 0 || false;
+      loading ||
+      (projectExist ? true : false) ||
+      description?.length === 0 ||
+      false;
     setDisabled(isDisabled);
-  }, [projectExist, description]);
+  }, [projectExist, description, loading]);
 
   const filterBySearch = (value: string) => {
     console.log(value);
@@ -62,23 +72,35 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     if (user)
-      addProject({
+      await addProject({
         name: name.toLowerCase(),
         description,
         color,
         email: user.email,
-        date: new Date(),
-        members: [user],
-      }).then((res) => console.log(res));
+      })
+        .then((res) => {
+          setIsOpen(false);
+          setLoading(false);
+          openNotification({
+            type: "success",
+            message: "Project Successfully Add!",
+            description: `
+            ${name} project is added now.
+            This is a project description (" ${description} ").  
+            and ${color} is a project color `,
+          });
+        })
+        .catch((err: Error) => {
+          setLoading(false);
+          openNotification({
+            type: "error",
+            message: "Something went wrong!",
+            description: err.message || "backend error",
+          });
+        });
   };
-
-  //   useEffect(() => {
-  //     if (isSuccess) {
-  //       setIsOpen(false);
-  //       toast.success("Team added successfully!");
-  //     }
-  //   }, [isSuccess, setIsOpen]);
 
   const projectColor: ProjectColor[] = [
     "red",
@@ -92,7 +114,7 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full flex items-center justify-center bg-violet-500 h-full bg-opacity-60 z-10">
-      <div className="absolute w-full h-full bg-slate-900 bg-opacity-60"></div>
+      <div className="absolute w-full h-full bg-slate-900 bg-opacity-60" />
       <div className="relative bg-[#F9FAFB] w-11/12 md:w-2/5 sm:w-3/5 rounded-lg p-8 z-10">
         <div className="flex justify-between border-b pb-4">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center">
@@ -191,7 +213,7 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 disabled:bg-gray-300 disabled:hover:bg-gray-300"
               disabled={disabled}
             >
-              Add team
+              {!loading ? "Add team" : "loading..."}
             </button>
           </div>
 

@@ -35,47 +35,44 @@ export const isExistProject = async (
   }
 };
 
-// addTeams({
-//   team: team.toLowerCase(),
-//   title,
-//   color,
-//   email,
-//   date: new Date().getTime(),
-//   members: [user],
-
-// name: string;
-// description: string;
-// color: string;
-// date: Date;
-// email: string;
-// members: IUser[];
-// });
-
-export const addProject = async ({
-  name,
-  description,
-  date,
-  email,
-  members,
-  color,
-}: IProject) => {
+interface IAddProject {
+  name: string;
+  email: string;
+  description: string;
+  color: IProjectColor;
+}
+export const addProject = async ({ email, ...others }: IAddProject) => {
   try {
-    const newProject = await db.project.create({
+    const result = await db.project.create({
       data: {
-        name,
-        description,
-        color,
         email,
-        date,
+        ...others,
+        date: new Date(),
         members: {
           create: [{ userEmail: email }],
         },
       },
     });
 
-    console.log("Project created:", newProject);
+    return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
 
-    return newProject;
+export const getAllProject = async () => {
+  try {
+    const result = await db.project.findMany({
+      include: {
+        members: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    return result;
   } catch (error: any) {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
   }

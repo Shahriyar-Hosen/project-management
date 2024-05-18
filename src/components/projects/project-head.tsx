@@ -1,8 +1,24 @@
+import { notification } from "antd";
 import { useState } from "react";
 import { ProjectCardModal } from ".";
 
+type NotificationType = "success" | "info" | "warning" | "error";
+export interface Notification {
+  type: NotificationType;
+  message?: string;
+  description?: string;
+}
 export const ProjectHead = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = ({ type, message, description }: Notification) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement: "bottomRight",
+    });
+  };
 
   return (
     <div className="px-10 mt-6 flex justify-between">
@@ -26,7 +42,13 @@ export const ProjectHead = () => {
         </svg>
       </button>
 
-      {isOpen && <ProjectCardModal setIsOpen={setIsOpen} />}
+      {isOpen && (
+        <ProjectCardModal
+          setIsOpen={setIsOpen}
+          openNotification={openNotification}
+        />
+      )}
+      {contextHolder}
     </div>
   );
 };

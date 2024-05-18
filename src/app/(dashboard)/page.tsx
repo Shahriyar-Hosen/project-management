@@ -1,6 +1,7 @@
 "use client";
 
 import { ProjectHead } from "@/components/projects";
+import { getAllProject } from "@/server/actions";
 import { useStores } from "@/stores/provider";
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
@@ -21,6 +22,14 @@ const Home: NextPage = () => {
     logout();
     router.push("/login");
   };
+
+  useEffect(() => {
+    const projects = async () => {
+      const res = await getAllProject();
+      console.log("🚀 ~ projects ~ res:", res);
+    };
+    projects();
+  }, []);
 
   return (
     <main>
