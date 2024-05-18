@@ -1,42 +1,38 @@
 [
   {
-    "team": "copyright",
+    "project": "copyright",
     "status": "backlog",
     "color": "yellow",
     "title": "A design is a plan or specification for the construction",
     "email": "shahriyar@hosen.com",
     "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
-    "date": 1664131621113,
-    "id": 1
+    "date": 1664131621113
   },
   {
-    "team": "design",
+    "project": "design",
     "status": "ready",
     "color": "red",
     "title": "A design is a plan or specification for the construction",
     "email": "shahriyar@hosen.com",
     "avatar": "https://i.ibb.co/CH4R2Nv/avatar-3.png",
-    "date": 1664131626425,
-    "id": 2
+    "date": 1664131626425
   },
   {
-    "team": "qa",
+    "project": "qa",
     "status": "backlog",
     "color": "yellow",
     "title": "Join the Apple Developer Program to reach customers",
-    "email": "salman@gamil.com",
+    "email": "salman@gmail.com",
     "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
-    "date": 1664135591602,
-    "id": 3
+    "date": 1664135591602
   },
   {
-    "team": "dev",
+    "project": "dev",
     "status": "doing",
     "color": "red",
     "title": "Join the Apple Developer Program to reach customers",
-    "email": "salman@gamil.com",
+    "email": "salman@gmail.com",
     "avatar": "https://i.ibb.co/S3nDGgs/avatar-1.png",
-    "date": 1664135621564,
-    "id": 4
+    "date": 1664135621564
   }
 ]
