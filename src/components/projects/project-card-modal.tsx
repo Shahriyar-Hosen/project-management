@@ -1,39 +1,47 @@
 "use client";
 
 import { useCurrentUser } from "@/hooks/use-auth";
-import { Dispatch, FC, FormEvent, SetStateAction, useState } from "react";
-import { ErrorMessage } from ".";
+import { cn } from "@/lib/utils";
+import { addProject, isExistProject } from "@/server/actions";
+
+import { ProjectColor } from "@prisma/client";
+import {
+  Dispatch,
+  FC,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import { ErrorMessage } from "./error";
 
 type IProjectCardModal = { setIsOpen: Dispatch<SetStateAction<boolean>> };
 export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
-  // local state
-  const [team, setTeam] = useState("");
-  const [title, setTitle] = useState("");
-  const [color, setColor] = useState("red");
-  const [skipReq, setSkipReq] = useState(true);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [color, setColor] = useState<ProjectColor>("red");
   const [disabled, setDisabled] = useState(true);
+  const [projectExist, setProjectExist] = useState<boolean | undefined>(false);
 
-  // user
-  const { email } = useCurrentUser() || {};
+  useEffect(() => {
+    const checkProject = async () => {
+      const isExist = await isExistProject(name);
+      setProjectExist(isExist);
+    };
+    checkProject();
+  }, [name]);
 
-  //   const { data: teams } = useGetAllTeamsQuery(
-  //     { team: team.toLowerCase() },
-  //     { skip: skipReq }
-  //   );
+  const user = useCurrentUser();
 
-  //   const [addTeams, { isSuccess, isLoading }] = useAddTeamsMutation();
-
-  //   useEffect(() => {
-  //     if (teams?.length === 0 && title?.length > 0) {
-  //       setDisabled(false);
-  //     } else if (teams?.length > 0 || title?.length === 0) {
-  //       setDisabled(true);
-  //     }
-  //   }, [teams, title]);
+  useEffect(() => {
+    const isDisabled =
+      (projectExist ? true : false) || description?.length === 0 || false;
+    setDisabled(isDisabled);
+  }, [projectExist, description]);
 
   const filterBySearch = (value: string) => {
     console.log(value);
-    setTeam(value);
+    setName(value.toLocaleLowerCase());
   };
 
   const debounce = (fn: (value: string) => void, delay: number) => {
@@ -52,16 +60,17 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
 
   const handleSearch = debounce((value) => filterBySearch(value), 500);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // addTeams({
-    //   team: team.toLowerCase(),
-    //   title,
-    //   color,
-    //   email,
-    //   date: new Date().getTime(),
-    //   members: [user],
-    // });
+    if (user)
+      addProject({
+        name: name.toLowerCase(),
+        description,
+        color,
+        email: user.email,
+        date: new Date(),
+        members: [user],
+      }).then((res) => console.log(res));
   };
 
   //   useEffect(() => {
@@ -71,13 +80,23 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
   //     }
   //   }, [isSuccess, setIsOpen]);
 
+  const projectColor: ProjectColor[] = [
+    "red",
+    "green",
+    "yellow",
+    "violet",
+    "pink",
+    "orange",
+    "teal",
+  ];
+
   return (
     <div className="fixed top-0 left-0 w-full flex items-center justify-center bg-violet-500 h-full bg-opacity-60 z-10">
       <div className="absolute w-full h-full bg-slate-900 bg-opacity-60"></div>
       <div className="relative bg-[#F9FAFB] w-11/12 md:w-2/5 sm:w-3/5 rounded-lg p-8 z-10">
         <div className="flex justify-between border-b pb-4">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center">
-            Add new team!
+            Add new project!
           </h3>
           <button
             onClick={() => setIsOpen(false)}
@@ -102,79 +121,66 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
           <div className="flex flex-col gap-3">
             <div>
               <input
-                id="team-name"
-                name="team"
+                id="project-name"
+                name="project"
                 type="text"
-                autoComplete="team-name"
+                autoComplete="project-name"
                 required
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-violet-500 focus:border-violet-500 focus:z-10 sm:text-sm"
-                placeholder="Team name"
+                placeholder="Project name"
                 onChange={handleSearch}
               />
             </div>
             <div>
               <textarea
-                id="team-title"
-                name="title"
-                autoComplete="team-title"
+                id="project-description"
+                name="description"
+                autoComplete="project-description"
                 required
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-violet-500 focus:border-violet-500 focus:z-10 sm:text-sm"
-                placeholder="Team description"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              ></textarea>
+                placeholder="Project description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </div>
+            {/* color */}
             <div className="flex justify-center py-4">
               <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setColor("red")}
-                  className={`h-8 w-8 rounded-full ring ring-transparent bg-red-300 ${
-                    color === "red" && "ring-red-600"
-                  }`}
-                ></button>
-                <button
-                  type="button"
-                  onClick={() => setColor("green")}
-                  className={`h-8 w-8 rounded-full ring ring-transparent bg-green-300 ${
-                    color === "green" && "ring-green-600"
-                  }`}
-                ></button>
-                <button
-                  type="button"
-                  onClick={() => setColor("yellow")}
-                  className={`h-8 w-8 rounded-full ring ring-transparent bg-yellow-300 ${
-                    color === "yellow" && "ring-yellow-600"
-                  }`}
-                ></button>
-                <button
-                  type="button"
-                  onClick={() => setColor("violet")}
-                  className={`h-8 w-8 rounded-full ring ring-transparent bg-violet-300 ${
-                    color === "violet" && "ring-violet-600"
-                  }`}
-                ></button>
-                <button
-                  type="button"
-                  onClick={() => setColor("pink")}
-                  className={`h-8 w-8 rounded-full ring ring-transparent bg-pink-300 ${
-                    color === "pink" && "ring-pink-600"
-                  }`}
-                ></button>
-                <button
-                  type="button"
-                  onClick={() => setColor("orange")}
-                  className={`h-8 w-8 rounded-full ring ring-transparent bg-orange-300 ${
-                    color === "orange" && "ring-orange-600"
-                  }`}
-                ></button>
-                <button
-                  type="button"
-                  onClick={() => setColor("teal")}
-                  className={`h-8 w-8 rounded-full ring ring-transparent bg-teal-300 ${
-                    color === "teal" && "ring-teal-600"
-                  }`}
-                ></button>
+                {projectColor.map((colorName, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setColor(colorName)}
+                    className={cn(
+                      "h-8 w-8 rounded-full ring ring-transparent",
+                      {
+                        "bg-red-300": colorName === "red",
+                        "bg-green-300": colorName === "green",
+                        "bg-yellow-300": colorName === "yellow",
+                        "bg-violet-300": colorName === "violet",
+                        "bg-pink-300": colorName === "pink",
+                        "bg-orange-300": colorName === "orange",
+                        "bg-teal-300": colorName === "teal",
+                      },
+                      {
+                        "ring-red-600/80":
+                          color === "red" && color === colorName,
+                        "ring-green-600/80":
+                          color === "green" && color === colorName,
+                        "ring-yellow-600/80":
+                          color === "yellow" && color === colorName,
+                        "ring-violet-600/80":
+                          color === "violet" && color === colorName,
+                        "ring-pink-600/80":
+                          color === "pink" && color === colorName,
+                        "ring-orange-600/80":
+                          color === "orange" && color === colorName,
+                        "ring-teal-600/80":
+                          color === "teal" && color === colorName,
+                      }
+                    )}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -183,15 +189,15 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({ setIsOpen }) => {
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 disabled:bg-gray-300 disabled:hover:bg-gray-300"
-              //   disabled={disabled || isLoading}
+              disabled={disabled}
             >
               Add team
             </button>
           </div>
 
-          {/* {teams?.length > 0 && (
+          {projectExist && (
             <ErrorMessage message={"Team already exist! Try another name."} />
-          )} */}
+          )}
         </form>
       </div>
     </div>

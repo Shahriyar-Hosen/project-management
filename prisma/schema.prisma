@@ -8,23 +8,43 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  email     String   @unique
-  password  String
-  avatar    String
-  Project   Project? @relation(fields: [projectId], references: [id])
-  projectId String?  @db.ObjectId
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String          @unique
+  password      String
+  avatar        String
+  Project       Project?        @relation(fields: [projectId], references: [id])
+  projectId     String?         @db.ObjectId
+  ProjectMember ProjectMember[]
+}
+
+enum ProjectColor {
+  red
+  green
+  yellow
+  violet
+  pink
+  orange
+  teal
 }
 
 model Project {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String   @unique
-  email       String
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  name        String          @unique
   description String
-  color       String
+  color       ProjectColor
+  email       String
   date        DateTime
-  members     User[]
+  members     ProjectMember[]
+  User        User[]
+}
+
+model ProjectMember {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  projectName String
+  userEmail   String
+  project     Project @relation(fields: [projectName], references: [name])
+  user        User    @relation(fields: [userEmail], references: [email])
 }
 
 enum TaskStatus {
