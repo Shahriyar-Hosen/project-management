@@ -3,6 +3,7 @@ import { deleteProject } from "@/server/actions";
 import { faAdd, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image } from "antd";
+import Link from "next/link";
 import { FC, useState } from "react";
 import { ProjectMemberModal } from ".";
 import { DeleteModal } from "../common";
@@ -36,13 +37,15 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
         >
           <FontAwesomeIcon icon={faAdd} />
         </button>
-        <button
-          className={
-            "text-base transition delay-75 ease-in-out text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 scale-90"
-          }
-        >
-          <FontAwesomeIcon icon={faEye} />
-        </button>
+        <Link href={`/${name}`}>
+          <button
+            className={
+              "text-base transition delay-75 ease-in-out text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 scale-90"
+            }
+          >
+            <FontAwesomeIcon icon={faEye} />
+          </button>
+        </Link>
         <button
           className={
             "text-base transition delay-75 ease-in-out text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 scale-90"
@@ -52,23 +55,25 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
           <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>
-      <span
-        className={cn(
-          "flex items-center h-6 px-3 text-xs font-semibold rounded-full",
-          {
-            "text-red-600 bg-red-100": color === "red",
-            "text-green-600 bg-green-100": color === "green",
-            "text-yellow-600 bg-yellow-100": color === "yellow",
-            "text-violet-600 bg-violet-100": color === "violet",
-            "text-pink-600 bg-pink-100": color === "pink",
-            "text-orange-600 bg-orange-100": color === "orange",
-            "text-teal-600 bg-teal-100": color === "teal",
-          }
-        )}
-      >
-        {name.toUpperCase()}
-      </span>
-      <h4 className="mt-3 text-sm font-medium">{description}</h4>
+      <Link href={`/${name}`}>
+        <h2
+          className={cn(
+            "flex items-center h-6 px-3 text-xs font-semibold rounded-full",
+            {
+              "text-red-600 bg-red-100": color === "red",
+              "text-green-600 bg-green-100": color === "green",
+              "text-yellow-600 bg-yellow-100": color === "yellow",
+              "text-violet-600 bg-violet-100": color === "violet",
+              "text-pink-600 bg-pink-100": color === "pink",
+              "text-orange-600 bg-orange-100": color === "orange",
+              "text-teal-600 bg-teal-100": color === "teal",
+            }
+          )}
+        >
+          {name.toUpperCase()}
+        </h2>
+        <h4 className="mt-3 text-sm font-medium">{description}</h4>
+      </Link>
       <div className="flex items-center justify-between w-full mt-3 text-xs font-medium text-gray-400">
         <div className="flex items-center">
           <svg
