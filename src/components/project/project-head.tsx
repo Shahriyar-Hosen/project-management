@@ -23,6 +23,19 @@ export interface INotification {
   description?: string;
 }
 
+const RecentSkeleton = () => (
+  <div className="animate-pulse space-y-2.5 flex justify-between items-center gap-2.5 bg-white/40 p-2 rounded-lg">
+    <div className="space-y-2.5 w-full">
+      <div className="h-4 bg-slate-700/50 rounded-full w-36" />
+      <div className="h-3 bg-slate-700/50 rounded-full w-10/12" />
+    </div>
+    <div className="space-y-2.5 flex flex-col justify-center items-end">
+      <div className="h-3 bg-slate-700/50 rounded-full w-16" />
+      <div className="h-3 bg-slate-700/50 rounded-full w-28" />
+    </div>
+  </div>
+);
+
 export const ProjectHead = () => {
   const [memberModal, setMemberModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -146,41 +159,50 @@ export const ProjectHead = () => {
 
             {/* activities */}
             <div className="space-y-2.5">
-              {recentData?.map(({ title, description, status, date }, i) => (
-                <div
-                  key={i}
-                  className="flex justify-between items-center gap-2.5 bg-white/40 p-2 rounded-lg"
-                >
-                  <div className="space-y-1">
-                    <h1 className="font-semibold capitalize">{title}</h1>
-                    <p className="text-sm max-w-sm">
-                      {description.length > 50
-                        ? description.slice(0, 50) + "..."
-                        : description}{" "}
-                    </p>
+              {recentData && !recentLoading ? (
+                recentData?.map(({ title, description, status, date }, i) => (
+                  <div
+                    key={i}
+                    className="flex justify-between items-center gap-2.5 bg-white/40 p-2 rounded-lg"
+                  >
+                    <div className="space-y-1">
+                      <h1 className="font-semibold capitalize">{title}</h1>
+                      <p className="text-sm max-w-sm">
+                        {description.length > 50
+                          ? description.slice(0, 50) + "..."
+                          : description}{" "}
+                      </p>
+                    </div>
+                    <div className="flex flex-col justify-center items-end gap-1">
+                      <button
+                        className={cn(
+                          "rounded-full px-2.5 text-sm font-semibold",
+                          {
+                            "text-pink-600 bg-pink-100": status === "Backlog",
+                            "text-orange-600 bg-orange-100": status === "Ready",
+                            "text-yellow-600 bg-yellow-100": status === "Doing",
+                            "text-violet-600 bg-violet-100":
+                              status === "Review",
+                            "text-red-600 bg-red-100": status === "Blocked",
+                            "text-green-600 bg-green-100": status === "Done",
+                          }
+                        )}
+                      >
+                        {status}
+                      </button>
+                      <p className="text-sm">
+                        {moment(date, "YYYYMMDD").fromNow()}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex flex-col justify-center items-end gap-1">
-                    <button
-                      className={cn(
-                        "rounded-full px-2.5 text-sm font-semibold",
-                        {
-                          "text-pink-600 bg-pink-100": status === "Backlog",
-                          "text-orange-600 bg-orange-100": status === "Ready",
-                          "text-yellow-600 bg-yellow-100": status === "Doing",
-                          "text-violet-600 bg-violet-100": status === "Review",
-                          "text-red-600 bg-red-100": status === "Blocked",
-                          "text-green-600 bg-green-100": status === "Done",
-                        }
-                      )}
-                    >
-                      {status}
-                    </button>
-                    <p className="text-sm">
-                      {moment(date, "YYYYMMDD").fromNow()}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <>
+                  <RecentSkeleton />
+                  <RecentSkeleton />
+                  <RecentSkeleton />
+                </>
+              )}
             </div>
           </div>
         </div>
