@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, dynamicColor } from "@/lib/utils";
 import { deleteProject } from "@/server/actions";
 import { faAdd, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -61,15 +61,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
         <h2
           className={cn(
             "flex items-center h-6 px-3 text-xs font-semibold rounded-full w-fit",
-            {
-              "text-red-600 bg-red-100": color === "red",
-              "text-green-600 bg-green-100": color === "green",
-              "text-yellow-600 bg-yellow-100": color === "yellow",
-              "text-violet-600 bg-violet-100": color === "violet",
-              "text-pink-600 bg-pink-100": color === "pink",
-              "text-orange-600 bg-orange-100": color === "orange",
-              "text-teal-600 bg-teal-100": color === "teal",
-            }
+            dynamicColor(color)
           )}
         >
           {name.toUpperCase()}

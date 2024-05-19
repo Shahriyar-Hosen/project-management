@@ -1,14 +1,10 @@
-import moment from "moment";
-import { FC, useState } from "react";
-// import manageColor from '../../utils/manageColor';
+import { DeleteModal } from "@/components/common";
+import { cn, dynamicColor } from "@/lib/utils";
 import { faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { useDrag } from "react-dnd";
-import { DeleteModal } from "../../common";
-// import { useDeleteProjectMutation } from '../../features/projects/projectsApi';
-// import toast from 'react-hot-toast';
-// import { useSelector } from 'react-redux';
-// import DeleteModal from '../common/DeleteModal';
+import moment from "moment";
+import Image from "next/image";
+import { FC, useState } from "react";
 
 export const TaskCard: FC<ITask> = ({
   avatar,
@@ -16,26 +12,12 @@ export const TaskCard: FC<ITask> = ({
   date,
   description,
   email,
-  id,
-  index,
-  project,
-  status,
   title,
 }) => {
   // const { id, avatar, date, color, team, title, email } = project || {};
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [isNotUser, setIsNotUser] = useState(false);
-
-  //   const [deleteProject, { isSuccess }] = useDeleteProjectMutation();
-  //   const { user } = useSelector((state) => state.auth) || {};
-  //   const { email: userEmail } = user || {};
-
-  //   const [, dragRef] = useDrag({
-  //     type: type,
-  //     item: () => ({ ...project, index }),
-  //     // collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  //   });
 
   //   const { search } = useSelector((state) => state.search) || {};
 
@@ -44,18 +26,6 @@ export const TaskCard: FC<ITask> = ({
   const deleteHandler = () => {
     // deleteProject(id);
   };
-
-  //   useEffect(() => {
-  //     if (email !== userEmail) {
-  //       setIsNotUser(true);
-  //     }
-  //   }, [email, userEmail]);
-
-  //   useEffect(() => {
-  //     if (isSuccess) {
-  //       toast.success("Project deleted successfully!");
-  //     }
-  //   }, [isSuccess]);
 
   return (
     <>
@@ -67,7 +37,6 @@ export const TaskCard: FC<ITask> = ({
         //  }
         // ref={dragRef}
       >
-        {/* {options && ( */}
         <div className="absolute top-0 right-0 hidden items-center mt-3 mr-2 group-hover:flex">
           <button
             className={`text-base transition delay-75 ease-in-out scale-0 text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 ${
@@ -84,14 +53,15 @@ export const TaskCard: FC<ITask> = ({
             <FontAwesomeIcon icon={faEllipsisVertical} />
           </button>
         </div>
-        {/* )} */}
         <span
-          className={`flex items-center h-6 px-3 text-xs font-semibold  rounded-full`} //${teamColor}
+          className={cn(
+            "flex items-center h-6 px-3 text-xs font-semibold rounded-full capitalize",
+            dynamicColor(color)
+          )}
         >
-          {/* {team.toUpperCase()} */}
           {title}
         </span>
-        <h4 className="mt-3 text-sm font-medium">{title}</h4>
+        <p className="mt-3 text-sm font-medium text-wrap">{description}</p>
         <div className="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
           <div className="flex items-center">
             <svg
@@ -111,10 +81,12 @@ export const TaskCard: FC<ITask> = ({
             </span>
           </div>
 
-          <img
+          <Image
             className="w-6 h-6 ml-auto rounded-full"
             src={avatar}
-            alt="user"
+            alt={email}
+            width={24}
+            height={24}
           />
         </div>
       </div>
