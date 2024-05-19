@@ -7,31 +7,56 @@ import { IDB } from "./db";
 import { DndContext } from "./dnd-context";
 
 export const TaskBoard: FC<{ defaultDb: IDB[] }> = ({ defaultDb }) => {
-  const [data, setData] = useState<IDB[] | []>([]);
+  const [data, setData] = useState<IDB[]>([]);
 
   useEffect(() => setData(defaultDb), [defaultDb]);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
+
     if (!destination) return;
+
     if (source.droppableId !== destination.droppableId) {
-      const newData = [...JSON.parse(JSON.stringify(data))]; //shallow copy concept
+      console.log("🚀 ~ onDragEnd ~ :", { source, destination });
+      // Update Status
+      const newData: IDB[] = [...JSON.parse(JSON.stringify(data))]; //shallow copy concept
+
       const oldDroppableIndex = newData.findIndex(
-        (x) => x.id == source.droppableId.split("droppable")[1]
+        (x) => String(x.id) === source.droppableId.split("-")[1]
       );
       const newDroppableIndex = newData.findIndex(
-        (x) => x.id == destination.droppableId.split("droppable")[1]
+        (x) => String(x.id) == destination.droppableId.split("-")[1]
       );
+      console.log("🚀 ~ onDragEnd ~ Index:", {
+        newDroppableIndex,
+        oldDroppableIndex,
+      });
+
       const [item] = newData[oldDroppableIndex].tasks.splice(source.index, 1);
+
+      item.status = newData[newDroppableIndex].status;
+      item.index = destination.index;
       newData[newDroppableIndex].tasks.splice(destination.index, 0, item);
+      console.log("🚀 ~ onDragEnd ~ item:", {
+        item,
+        newDroppable: newData[newDroppableIndex],
+      });
+
       setData([...newData]);
     } else {
+      // Update Index
       const newData = [...JSON.parse(JSON.stringify(data))]; //shallow copy concept
       const droppableIndex = newData.findIndex(
-        (x) => x.id == source.droppableId.split("droppable")[1]
+        (x) => x.id == source.droppableId.split("-")[1]
       );
       const [item] = newData[droppableIndex].tasks.splice(source.index, 1);
+      item.index = destination.index;
       newData[droppableIndex].tasks.splice(destination.index, 0, item);
+      console.log("🚀 ~ onDragEnd ~ item:", {
+        item,
+        newDroppable: newData[droppableIndex],
+      });
+
       setData([...newData]);
     }
   };
@@ -44,7 +69,10 @@ export const TaskBoard: FC<{ defaultDb: IDB[] }> = ({ defaultDb }) => {
       <div className="flex gap-4 justify-between my-20 mx-4 flex-col lg:flex-row">
         {data.map((val, index) => {
           return (
-            <Droppable key={index} droppableId={`droppable${index}`}>
+            <Droppable
+              key={index}
+              droppableId={`droppable-${val.id}-${val.status}`}
+            >
               {(provided) => (
                 <div
                   className="p-5 lg:w-1/3 w-full bg-white  border-gray-400 border border-dashed"
@@ -54,11 +82,11 @@ export const TaskBoard: FC<{ defaultDb: IDB[] }> = ({ defaultDb }) => {
                   <h2 className="text-center font-bold mb-6 text-black">
                     {val.status}
                   </h2>
-                  {val.tasks?.map((task, index) => (
+                  {val.tasks?.map((task, i) => (
                     <Draggable
-                      key={task.id}
+                      key={i}
                       draggableId={task.id.toString()}
-                      index={index}
+                      index={i}
                     >
                       {(provided) => (
                         <div

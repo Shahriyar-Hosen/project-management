@@ -3,6 +3,7 @@ export interface IDB {
   status: IStatus;
   tasks: {
     id: number;
+    index: number;
     name: string;
     status: IStatus;
   }[];
@@ -15,11 +16,13 @@ export const boardData: IDB[] = [
     tasks: [
       {
         id: 1,
+        index: 1,
         name: "Board component 1",
         status: "Backlog",
       },
       {
         id: 2,
+        index: 2,
         name: "Board component 2",
         status: "Backlog",
       },
@@ -31,11 +34,13 @@ export const boardData: IDB[] = [
     tasks: [
       {
         id: 11,
+        index: 11,
         name: "Board component 1",
         status: "Ready",
       },
       {
         id: 22,
+        index: 22,
         name: "Board component 2",
         status: "Ready",
       },
@@ -47,11 +52,13 @@ export const boardData: IDB[] = [
     tasks: [
       {
         id: 111,
+        index: 111,
         name: "Board component 1",
         status: "Doing",
       },
       {
         id: 222,
+        index: 222,
         name: "Board component 2",
         status: "Doing",
       },
@@ -63,11 +70,13 @@ export const boardData: IDB[] = [
     tasks: [
       {
         id: 1111,
+        index: 1111,
         name: "Board component 1",
         status: "Review",
       },
       {
         id: 2222,
+        index: 2222,
         name: "Board component 2",
         status: "Review",
       },
@@ -79,11 +88,13 @@ export const boardData: IDB[] = [
     tasks: [
       {
         id: 11111,
+        index: 11111,
         name: "Board component 1",
         status: "Backlog",
       },
       {
         id: 22222,
+        index: 22222,
         name: "Board component 2",
         status: "Backlog",
       },
@@ -95,11 +106,13 @@ export const boardData: IDB[] = [
     tasks: [
       {
         id: 111111,
+        index: 111111,
         name: "Board component 1",
         status: "Done",
       },
       {
         id: 222222,
+        index: 222222,
         name: "Board component 2",
         status: "Done",
       },
