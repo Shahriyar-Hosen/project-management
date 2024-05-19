@@ -63,6 +63,7 @@ declare interface ITask {
   email: string;
   avatar: string;
   date: Date;
+  deadline: Date;
 }
 
 declare interface IBoardData {

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn, dynamicColor } from "@/lib/utils";
 import { getProject, getRecentActivities } from "@/server/actions";
 import { useStores } from "@/stores/provider";
 import { useQuery } from "@tanstack/react-query";
@@ -30,7 +30,7 @@ export const ProjectHead = () => {
 
   const mainPath = pathname.slice(1).split("~");
   const projectName = mainPath[0].split("-").join(" ");
-  const projectColor = mainPath[1];
+  const projectColor = mainPath[1] as IColors;
 
   const { user } = useStores((state) => state);
 
@@ -44,7 +44,7 @@ export const ProjectHead = () => {
     isLoading: recentLoading,
     refetch: recentRefetch,
   } = useQuery({
-    queryKey: ["recent activities"],
+    queryKey: ["tasks", "recent tasks activities"],
     queryFn: () => fetchRecentActivities(projectName),
   });
 
@@ -68,15 +68,7 @@ export const ProjectHead = () => {
       <h1
         className={cn(
           "text-3xl font-bold capitalize rounded-full px-5 py-1 mt-6 bg-cyan-100 w-fit text-center mx-auto",
-          {
-            "text-red-600 bg-red-100": projectColor === "red",
-            "text-green-600 bg-green-100": projectColor === "green",
-            "text-yellow-600 bg-yellow-100": projectColor === "yellow",
-            "text-violet-600 bg-violet-100": projectColor === "violet",
-            "text-pink-600 bg-pink-100": projectColor === "pink",
-            "text-orange-600 bg-orange-100": projectColor === "orange",
-            "text-teal-600 bg-teal-100": projectColor === "teal",
-          }
+          dynamicColor(projectColor)
         )}
       >
         {projectName}

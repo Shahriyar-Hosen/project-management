@@ -186,7 +186,7 @@ interface IAddTask {
 export const addTask = async (data: IAddTask) => {
   try {
     const result = await db.task.create({
-      data: { ...data, date: new Date() },
+      data: { ...data, date: new Date(), deadline: new Date() },
     });
 
     return result;
@@ -266,6 +266,6 @@ export const getAllBoardData = async ({ project }: { project: string }) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 39 ~ All Board Data error ~:", error);
   }
 };

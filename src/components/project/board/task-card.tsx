@@ -9,7 +9,7 @@ import { FC, useState } from "react";
 export const TaskCard: FC<ITask> = ({
   avatar,
   color,
-  date,
+  deadline,
   description,
   email,
   title,
@@ -77,7 +77,7 @@ export const TaskCard: FC<ITask> = ({
               />
             </svg>
             <span className="ml-1 leading-none">
-              {moment(date).format("MMM DD")}
+              {moment(deadline).format("MMM DD")}
             </span>
           </div>
 

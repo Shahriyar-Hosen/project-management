@@ -67,4 +67,5 @@ model Task {
   email       String
   avatar      String
   date        DateTime
+  deadline    DateTime
 }

@@ -31,7 +31,7 @@ export const TaskBoard: FC<{ defaultDb: IBoardData[] }> = ({ defaultDb }) => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["tasks board"],
+    queryKey: ["tasks"],
     queryFn: () => fetchBoardData(projectName),
   });
 
