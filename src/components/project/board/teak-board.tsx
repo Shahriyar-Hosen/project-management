@@ -19,7 +19,7 @@ const fetchBoardData = async (project: string) => {
 };
 
 export const TaskBoard: FC = () => {
-  const [data, setData] = useState<IBoardData[]>([]);
+  const [data, setData] = useState<IBoardData[]>(boardDataDefault);
   const [statusAndIndex, setStatusAndIndex] = useState<ITask>();
 
   useEffect(() => setData(boardDataDefault), []);
@@ -132,23 +132,37 @@ export const TaskBoard: FC = () => {
                       addTaskBtn={val.status === "Backlog"}
                     />
                     <TaskCards>
-                      {val.tasks?.map((task, i) => (
-                        <Draggable
-                          key={i}
-                          draggableId={task.id.toString()}
-                          index={i}
-                        >
-                          {(provided) => (
-                            <div
-                              {...provided.dragHandleProps}
-                              {...provided.draggableProps}
-                              ref={provided.innerRef}
-                            >
-                              <TaskCard {...task} refetch={refetch} />
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
+                      {!isLoading ? (
+                        val.tasks?.map((task, i) => (
+                          <Draggable
+                            key={i}
+                            draggableId={task.id.toString()}
+                            index={i}
+                          >
+                            {(provided) => (
+                              <div
+                                {...provided.dragHandleProps}
+                                {...provided.draggableProps}
+                                ref={provided.innerRef}
+                              >
+                                <TaskCard {...task} refetch={refetch} />
+                              </div>
+                            )}
+                          </Draggable>
+                        ))
+                      ) : (
+                        <div className="animate-pulse bg-white/40 p-2 rounded-lg mt-2">
+                          <div className="space-y-2.5 w-full">
+                            <div className="h-4 w-10 bg-slate-700/50 rounded-full" />
+                            <div className="h-3 bg-slate-700/50 rounded-full w-44" />
+                            <div className="h-3 bg-slate-700/50 rounded-full w-36" />
+                          </div>
+                          <div className="space-y-2.5 flex justify-between items-end">
+                            <div className="h-3 bg-slate-700/50 rounded-full w-20" />
+                            <div className="h-5  w-5 bg-slate-700/50 rounded-full" />
+                          </div>
+                        </div>
+                      )}
                       {provided.placeholder}
                     </TaskCards>
                   </div>
