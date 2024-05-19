@@ -84,7 +84,7 @@ export const ProjectMemberModal: FC<IModal> = ({
       <div className="bg-[#F9FAFB] w-11/12 md:w-2/5 sm:w-3/5 rounded-lg p-8 z-10">
         <div className="flex justify-between border-b pb-4">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center">
-            Assign new team member!
+            Assign new member!
           </h3>
           <button
             onClick={() => setIsOpen(false)}
