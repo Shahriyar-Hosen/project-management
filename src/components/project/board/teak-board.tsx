@@ -76,12 +76,8 @@ export const TaskBoard: FC = () => {
       item.status = newData[newDroppableIndex].status;
       item.index = destination.index;
       newData[newDroppableIndex].tasks.splice(destination.index, 0, item);
-      setStatusAndIndex(item);
-      console.log("🚀 ~ onDragEnd ~ item:", {
-        item,
-        newDroppable: newData[newDroppableIndex],
-      });
 
+      setStatusAndIndex(item);
       setData([...newData]);
     } else {
       // Update Index
@@ -92,11 +88,8 @@ export const TaskBoard: FC = () => {
       const [item] = newData[droppableIndex].tasks.splice(source.index, 1);
       item.index = destination.index;
       newData[droppableIndex].tasks.splice(destination.index, 0, item);
-      console.log("🚀 ~ onDragEnd ~ item:", {
-        item,
-        newDroppable: newData[droppableIndex],
-      });
 
+      setStatusAndIndex(item);
       setData([...newData]);
     }
   };

@@ -221,7 +221,7 @@ export const getAllBoardData = async ({ project }: { project: string }) => {
     }
     const findMany = (status: IStatus): Find => ({
       where: { project, status },
-      orderBy: { index: "desc" },
+      orderBy: { index: "asc" },
     });
 
     const backlog = await db.task.findMany(findMany("Backlog"));
@@ -319,6 +319,15 @@ export const updateTaskEmail = async ({ id, email }: UpdateTaskEmail) => {
       });
       return result;
     }
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
+
+export const deleteTask = async ({ id }: { id: string }) => {
+  try {
+    const result = await db.task.delete({ where: { id } });
+    return result;
   } catch (error: any) {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
   }

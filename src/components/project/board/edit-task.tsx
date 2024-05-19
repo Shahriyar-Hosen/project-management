@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@/components/common";
 import { cn } from "@/lib/utils";
-import { updateTask, updateTaskEmail } from "@/server/actions";
+import { isExistTask, updateTask, updateTaskEmail } from "@/server/actions";
 import { Button, Drawer } from "antd";
 import moment from "moment";
 import Image from "next/image";
@@ -23,15 +23,15 @@ export const EditTask: FC<IEditTask> = ({
   const [loading, setLoading] = useState(false);
   const [taskExist, setTaskExist] = useState<boolean | undefined>(false);
 
-  // useEffect(() => {
-  //   const checkTask = async () => {
-  //     const isExist = await isExistTask(title);
-  //     setTaskExist(isExist);
-  //   };
-  //   if (title !== updateAble.title) {
-  //     checkTask();
-  //   }
-  // }, [title, updateAble.title]);
+  useEffect(() => {
+    const checkTask = async () => {
+      const isExist = await isExistTask(title);
+      setTaskExist(isExist);
+    };
+    if (title !== updateAble.title) {
+      checkTask();
+    }
+  }, [title, updateAble.title]);
 
   useEffect(() => {
     const condition =
@@ -64,6 +64,10 @@ export const EditTask: FC<IEditTask> = ({
     });
 
     setLoading(false);
+  };
+
+  const handleDelete = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
   };
 
   return (
@@ -109,7 +113,7 @@ export const EditTask: FC<IEditTask> = ({
           </span>
         </div>
       </div>
-      <form onSubmit={handleSubmit} className="mt-5 space-y-2.5">
+      <form onSubmit={handleSubmit} className="mt-5 space-y-2.5 pb-5">
         <input
           type="text"
           onChange={(e) => setTitle(e.target.value)}
@@ -149,6 +153,17 @@ export const EditTask: FC<IEditTask> = ({
           type="primary"
           htmlType="submit"
           className="w-full disabled:bg-opacity-90 disabled:cursor-not-allowed"
+          disabled={!enable || loading}
+        >
+          Update
+        </Button>
+      </form>
+
+      <form onSubmit={handleDelete}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="w-full disabled:bg-opacity-90 disabled:cursor-not-allowed bg-red-500"
           disabled={!enable || loading}
         >
           Update
