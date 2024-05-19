@@ -5,23 +5,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import Image from "next/image";
 import { FC, useState } from "react";
+import { EditTask } from "./edit-task";
 
-export const TaskCard: FC<ITask> = ({
-  avatar,
-  color,
-  deadline,
-  description,
-  email,
-  title,
-}) => {
-  // const { id, avatar, date, color, team, title, email } = project || {};
+export const TaskCard: FC<ITask> = (task) => {
+  const [open, setOpen] = useState(false);
+
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [isNotUser, setIsNotUser] = useState(false);
+  const { avatar, color, deadline, description, email, title } = task;
 
   //   const { search } = useSelector((state) => state.search) || {};
 
   //   const teamColor = manageColor(color);
+
+  const showDrawer = () => setOpen(true);
+  const onClose = () => setOpen(false);
 
   const deleteHandler = () => {
     // deleteProject(id);
@@ -30,6 +29,7 @@ export const TaskCard: FC<ITask> = ({
   return (
     <>
       <div
+        onClick={showDrawer}
         className={`relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100`}
         // ${ search &&
         //     title.toLowerCase().includes(search.toLowerCase()) &&
@@ -90,6 +90,8 @@ export const TaskCard: FC<ITask> = ({
           />
         </div>
       </div>
+
+      <EditTask open={open} onClose={onClose} {...task} />
       {deleteModal && (
         <DeleteModal
           deleteHandler={deleteHandler}

@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { notification } from "antd";
 import { usePathname } from "next/navigation";
 import { INotification } from "../project-head";
+import { boardDataDefault } from "./db";
 import { DndContext } from "./dnd-context";
 import { TaskCard } from "./task-card";
 import { TaskStatus } from "./task-status";
@@ -17,11 +18,11 @@ const fetchBoardData = async (project: string) => {
   return await getAllBoardData({ project });
 };
 
-export const TaskBoard: FC<{ defaultDb: IBoardData[] }> = ({ defaultDb }) => {
+export const TaskBoard: FC = () => {
   const [data, setData] = useState<IBoardData[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => setData(defaultDb), [defaultDb]);
+  useEffect(() => setData(boardDataDefault), []);
 
   const pathname = usePathname();
   const mainPath = pathname.slice(1).split("~");

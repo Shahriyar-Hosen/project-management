@@ -35,3 +35,12 @@ export const dynamicColor = (color: IColors) => ({
   "text-orange-600 bg-orange-100": color === "orange",
   "text-teal-600 bg-teal-100": color === "teal",
 });
+
+export const dynamicStatus = (status: IStatus) => ({
+  "text-pink-600 bg-pink-100": status === "Backlog",
+  "text-orange-600 bg-orange-100": status === "Ready",
+  "text-yellow-600 bg-yellow-100": status === "Doing",
+  "text-violet-600 bg-violet-100": status === "Review",
+  "text-red-600 bg-red-100": status === "Blocked",
+  "text-green-600 bg-green-100": status === "Done",
+});
