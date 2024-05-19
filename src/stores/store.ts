@@ -1,18 +1,29 @@
-export type CounterState = {
+export type ProjectState = {
   count: number;
+  user: IUser | null;
 };
 
-export type CounterActions = {
+export type ProjectActions = {
+  login: (user: IUser) => void;
+  logout: () => void;
   decrementCount: () => void;
   incrementCount: () => void;
 };
 
-export type IStores = CounterState & CounterActions;
+export type IStores = ProjectState & ProjectActions;
 
-export const initStores = (): CounterState => {
-  return { count: new Date().getFullYear() };
+export const initStores = (): ProjectState => {
+  const localUser =
+    typeof window !== "undefined" && localStorage.getItem("user");
+  const user = localUser ? (JSON.parse(localUser) as IUser) : null;
+
+  return {
+    count: new Date().getFullYear(),
+    user,
+  };
 };
 
-export const defaultInitState: CounterState = {
+export const defaultInitState: ProjectState = {
   count: 0,
+  user: null,
 };
