@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { getProject } from "@/server/actions";
+import { getProject, getRecentActivities } from "@/server/actions";
 import { useStores } from "@/stores/provider";
 import { useQuery } from "@tanstack/react-query";
 import { notification } from "antd";
@@ -14,6 +14,8 @@ import { ProjectMemberModal } from "../projects";
 
 const fetchProject = async (email = "", name: string) =>
   await getProject({ email, name });
+const fetchRecentActivities = async (project: string) =>
+  await getRecentActivities({ project });
 
 export interface Notification {
   type: NotificationType;
@@ -38,6 +40,17 @@ export const ProjectHead = () => {
     queryFn: () => fetchProject(user?.email, projectName),
   });
 
+  const {
+    data: recentData,
+    isLoading: recentLoading,
+    refetch: recentRefetch,
+  } = useQuery({
+    queryKey: ["recent activities"],
+    queryFn: () => fetchRecentActivities(projectName),
+  });
+
+  console.log("🚀 ~ ProjectHead ~ recentData:", recentData);
+
   useEffect(() => {
     user && refetch();
   }, [refetch, user]);
@@ -53,10 +66,10 @@ export const ProjectHead = () => {
   const { description, date, email, members } = data || {};
 
   return (
-    <section className="px-10 space-y-5">
+    <section className="px-10 space-y-5 max-w-screen-2xl mx-auto">
       <h1
         className={cn(
-          "text-2xl font-bold capitalize rounded-full px-5 py-1 mt-6 bg-cyan-100 w-fit",
+          "text-3xl font-bold capitalize rounded-full px-5 py-1 mt-6 bg-cyan-100 w-fit text-center mx-auto",
           {
             "text-red-600 bg-red-100": projectColor === "red",
             "text-green-600 bg-green-100": projectColor === "green",
@@ -73,6 +86,7 @@ export const ProjectHead = () => {
 
       <div className="flex justify-between items-start gap-5 pt-5">
         <div>
+          {/* Project Details */}
           {isLoading ? (
             <div className="animate-pulse space-y-2.5 pb-3.5">
               <div className="h-4 bg-slate-700/50 rounded-full w-36" />
@@ -105,6 +119,8 @@ export const ProjectHead = () => {
               <p className="max-w-screen-sm">{description}</p>
             </div>
           )}
+
+          {/* recent activities */}
           <div className="pt-10">
             <div className="flex justify-center items-center gap-5 pb-5 w-fit">
               <h4 className="text-xl font-semibold capitalize w-fit">
@@ -129,9 +145,33 @@ export const ProjectHead = () => {
                 </svg>
               </button>
             </div>
+
+            {/* activities */}
+            <div className="space-y-2.5">
+              {recentData?.map(({ title, description, status, date }, i) => (
+                <div
+                  key={i}
+                  className="flex justify-between items-center gap-2.5 bg-cyan-100/60 p-2 rounded-lg"
+                >
+                  <div className="space-y-1">
+                    <h1 className="font-semibold capitalize">{title}</h1>
+                    <p className="text-sm">{description} </p>
+                  </div>
+                  <div className="flex flex-col justify-center items-end gap-1">
+                    <button className="bg-green-400 rounded-full px-2.5">
+                      {status}
+                    </button>
+                    <p className="text-sm">
+                      {moment(date, "YYYYMMDD").fromNow()}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
+        {/* Team Member */}
         <div>
           <div className="flex justify-center items-center gap-5  pb-5">
             <h4 className="text-xl font-semibold capitalize">Team Member</h4>
@@ -203,6 +243,7 @@ export const ProjectHead = () => {
 
       {isOpen && (
         <TaskCardModal
+          refetch={recentRefetch}
           project={projectName}
           setIsOpen={setIsOpen}
           openNotification={openNotification}

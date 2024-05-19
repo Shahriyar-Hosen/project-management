@@ -197,3 +197,21 @@ export const addTask = async (data: IAddTask) => {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
   }
 };
+
+export const getRecentActivities = async ({ project }: { project: string }) => {
+  try {
+    const result = await db.task.findMany({
+      where: {
+        project,
+      },
+      orderBy: {
+        date: "desc",
+      },
+      take: 3,
+    });
+
+    return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};

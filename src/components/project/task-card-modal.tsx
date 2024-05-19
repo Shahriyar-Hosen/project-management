@@ -19,10 +19,10 @@ type ITaskCardModal = {
   project: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   openNotification: (props: Notification) => void;
-};
+} & IRefetch;
 
 export const TaskCardModal: FC<ITaskCardModal> = ({
-  //   refetch,
+  refetch,
   project,
   setIsOpen,
   openNotification,
@@ -74,7 +74,7 @@ export const TaskCardModal: FC<ITaskCardModal> = ({
         avatar: user.avatar,
       })
         .then((res) => {
-          //   refetch();
+          refetch();
           setLoading(false);
           setIsOpen(false);
           openNotification({
@@ -203,7 +203,7 @@ export const TaskCardModal: FC<ITaskCardModal> = ({
           </div>
 
           {taskExist && (
-            <ErrorMessage message={"Team already exist! Try another name."} />
+            <ErrorMessage message={"Task already exist! Try another name."} />
           )}
         </form>
       </div>
