@@ -1,12 +1,12 @@
 import { ProjectHead } from ".";
 import { TaskBoard } from "./board";
-import { boardData } from "./board/db";
+import { boardDataDefault } from "./board/db";
 
 export const ProjectBody = () => {
   return (
     <>
       <ProjectHead />
-      <TaskBoard defaultDb={boardData} />
+      <TaskBoard defaultDb={boardDataDefault} />
     </>
   );
 };

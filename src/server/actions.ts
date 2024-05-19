@@ -212,3 +212,62 @@ export const getRecentActivities = async ({ project }: { project: string }) => {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
   }
 };
+
+export const getAllBoardData = async ({ project }: { project: string }) => {
+  try {
+    interface Find {
+      where: { project: string; status: IStatus };
+      orderBy: { index: "desc" | "asc" };
+    }
+    const findMany = (status: IStatus): Find => ({
+      where: { project, status },
+      orderBy: { index: "desc" },
+    });
+
+    const backlog = await db.task.findMany(findMany("Backlog"));
+    const ready = await db.task.findMany(findMany("Ready"));
+    const doing = await db.task.findMany(findMany("Doing"));
+    const review = await db.task.findMany(findMany("Review"));
+    const blocked = await db.task.findMany(findMany("Blocked"));
+    const done = await db.task.findMany(findMany("Done"));
+
+    const result: IBoardData[] = [
+      {
+        id: 0,
+        status: "Backlog",
+        tasks: backlog,
+      },
+      {
+        id: 1,
+        status: "Ready",
+        tasks: ready,
+      },
+      {
+        id: 2,
+        status: "Doing",
+        tasks: doing,
+      },
+      {
+        id: 3,
+        status: "Review",
+        tasks: review,
+      },
+      {
+        id: 4,
+        status: "Blocked",
+        tasks: blocked,
+      },
+      {
+        id: 5,
+        status: "Done",
+        tasks: done,
+      },
+    ];
+
+    console.log("🚀 ~ getAllBoardData ~ result:", result);
+
+    return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};

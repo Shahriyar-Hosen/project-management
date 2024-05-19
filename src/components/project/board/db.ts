@@ -1,15 +1,36 @@
-export interface IDB {
-  id: number;
-  status: IStatus;
-  tasks: {
-    id: number;
-    index: number;
-    name: string;
-    status: IStatus;
-  }[];
-}
-
-export const boardData: IDB[] = [
+export const boardDataDefault: IBoardData[] = [
+  {
+    id: 0,
+    status: "Backlog",
+    tasks: [],
+  },
+  {
+    id: 1,
+    status: "Ready",
+    tasks: [],
+  },
+  {
+    id: 2,
+    status: "Doing",
+    tasks: [],
+  },
+  {
+    id: 3,
+    status: "Review",
+    tasks: [],
+  },
+  {
+    id: 4,
+    status: "Blocked",
+    tasks: [],
+  },
+  {
+    id: 5,
+    status: "Done",
+    tasks: [],
+  },
+];
+/* export const boardData1: IDB[] = [
   {
     id: 0,
     status: "Backlog",
@@ -118,4 +139,4 @@ export const boardData: IDB[] = [
       },
     ],
   },
-];
+]; */

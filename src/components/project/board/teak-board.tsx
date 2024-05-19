@@ -3,13 +3,38 @@
 import { FC, useEffect, useState } from "react";
 import { Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 
-import { IDB } from "./db";
+import { getAllBoardData } from "@/server/actions";
+import { useQuery } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
 import { DndContext } from "./dnd-context";
 
-export const TaskBoard: FC<{ defaultDb: IDB[] }> = ({ defaultDb }) => {
-  const [data, setData] = useState<IDB[]>([]);
+const fetchBoardData = async (project: string) => {
+  return await getAllBoardData({ project });
+};
+
+export const TaskBoard: FC<{ defaultDb: IBoardData[] }> = ({ defaultDb }) => {
+  const [data, setData] = useState<IBoardData[]>([]);
 
   useEffect(() => setData(defaultDb), [defaultDb]);
+
+  const pathname = usePathname();
+  const mainPath = pathname.slice(1).split("~");
+  const projectName = mainPath[0].split("-").join(" ");
+  const {
+    data: dbData,
+    isLoading: dbLoading,
+    refetch: dbRefetch,
+  } = useQuery({
+    queryKey: ["tasks board"],
+    queryFn: () => fetchBoardData(projectName),
+  });
+
+  useEffect(() => {
+    console.log({ dbData });
+    if (dbData) {
+      setData(dbData);
+    }
+  }, [dbData]);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -19,7 +44,7 @@ export const TaskBoard: FC<{ defaultDb: IDB[] }> = ({ defaultDb }) => {
     if (source.droppableId !== destination.droppableId) {
       console.log("🚀 ~ onDragEnd ~ :", { source, destination });
       // Update Status
-      const newData: IDB[] = [...JSON.parse(JSON.stringify(data))]; //shallow copy concept
+      const newData: IBoardData[] = [...JSON.parse(JSON.stringify(data))]; //shallow copy concept
 
       const oldDroppableIndex = newData.findIndex(
         (x) => String(x.id) === source.droppableId.split("-")[1]
@@ -90,13 +115,15 @@ export const TaskBoard: FC<{ defaultDb: IDB[] }> = ({ defaultDb }) => {
                     >
                       {(provided) => (
                         <div
-                          className="bg-gray-200 mx-1 px-4 py-3 my-3"
+                          className="bg-gray-200 mx-1 px-4 py-3 my-3 w-full"
                           {...provided.dragHandleProps}
                           {...provided.draggableProps}
                           ref={provided.innerRef}
                         >
                           <h3>{task.status}</h3>
-                          <p>{task.name}</p>
+                          <h2>{task.title}</h2>
+                          <h2 className="max-w-full">{task.description}</h2>
+                          <h2>{task.index}</h2>
                         </div>
                       )}
                     </Draggable>
