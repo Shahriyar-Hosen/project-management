@@ -50,7 +50,6 @@ export const EditTask: FC<IEditTask> = ({
 
     if (email !== updateAble.email) {
       await updateTaskEmail({ id, email }).then((res) => {
-        console.log("🚀 ~ handleSubmit ~ res:", res);
         if (res) {
           refetch();
           onClose();

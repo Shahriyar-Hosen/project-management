@@ -49,7 +49,6 @@ export const TaskBoard: FC = () => {
   });
 
   useEffect(() => {
-    console.log({ dbData });
     if (dbData) {
       setData(dbData);
     }

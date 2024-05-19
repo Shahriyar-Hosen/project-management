@@ -52,7 +52,6 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({
   }, [projectExist, description, loading]);
 
   const filterBySearch = (value: string) => {
-    console.log(value);
     setName(value.toLocaleLowerCase());
   };
 

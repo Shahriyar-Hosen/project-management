@@ -39,11 +39,10 @@ export const From = () => {
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
   ) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    // console.log("Success:", values);
     setEmail(values.email);
   };
 

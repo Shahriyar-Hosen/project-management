@@ -17,7 +17,7 @@ export const findSingleUser = async (
     });
     if (user) return user;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~ :- ", error);
+    console.log("🚀 ~ line: 20 ~ findSingleUser error ~ :- ", error);
   }
 };
 
@@ -31,7 +31,7 @@ export const isExistProject = async (
 
     return isProjectExists ? true : false;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~ :-", error);
+    console.log("🚀 ~ line: 34 ~ isExistProject error ~ :-", error);
   }
 };
 
@@ -45,7 +45,7 @@ export const isExistTask = async (
 
     return isProjectExists ? true : false;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~ :-", error);
+    console.log("🚀 ~ line: 48 ~ isExistTask error ~ :-", error);
   }
 };
 
@@ -70,7 +70,7 @@ export const addProject = async ({ email, ...others }: IAddProject) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 73 ~ addProject error ~:-", error);
   }
 };
 type IAddMember = { name: string; email: string };
@@ -85,7 +85,7 @@ export const addProjectMember = async ({ email, name }: IAddMember) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 88 ~ addProjectMember error ~:-", error);
   }
 };
 
@@ -117,7 +117,7 @@ export const getAllProject = async ({ email }: { email: string }) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 120 ~ getAllProject error ~:-", error);
   }
 };
 
@@ -151,7 +151,7 @@ export const getProject = async ({ email, name }: GetProject) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 154 ~ getProject error ~:-", error);
   }
 };
 
@@ -170,7 +170,7 @@ export const deleteProject = async ({ name }: { name: string }) => {
 
     return { name };
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 173 ~ deleteProject error ~:-", error);
   }
 };
 
@@ -191,7 +191,7 @@ export const addTask = async (data: IAddTask) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 194 ~ addTask error ~:-", error);
   }
 };
 
@@ -209,7 +209,7 @@ export const getRecentActivities = async ({ project }: { project: string }) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 212 ~ getRecentActivities error ~:-", error);
   }
 };
 
@@ -266,7 +266,7 @@ export const getAllBoardData = async ({ project }: { project: string }) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ All Board Data error ~:", error);
+    console.log("🚀 ~ line: 269 ~ All Board Data error ~:", error);
   }
 };
 
@@ -286,7 +286,7 @@ export const updateTask = async ({ id, ...data }: IUpdateTask) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 289 ~ updateTask error ~:-", error);
   }
 };
 
@@ -300,7 +300,7 @@ export const updateTaskStatus = async ({ id, ...data }: UpdateTaskStatus) => {
 
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 303 ~ updateTaskStatus error ~:-", error);
   }
 };
 
@@ -316,7 +316,7 @@ export const updateTaskEmail = async ({ id, email }: UpdateTaskEmail) => {
       return result;
     }
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 319 ~ updateTaskEmail error ~:-", error);
   }
 };
 
@@ -325,6 +325,6 @@ export const deleteTask = async ({ id }: { id: string }) => {
     const result = await db.task.delete({ where: { id } });
     return result;
   } catch (error: any) {
-    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+    console.log("🚀 ~ line: 328 ~ deleteTask error ~:-", error);
   }
 };
