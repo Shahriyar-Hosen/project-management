@@ -51,3 +51,23 @@ declare type IStatus =
 declare type IRefetch = { refetch: () => void };
 
 declare type NotificationType = "success" | "info" | "warning" | "error";
+
+declare interface ITask {
+  id: string;
+  index: number;
+  project: string;
+  status: IStatus;
+  color: IColors;
+  title: string;
+  description: string;
+  email: string;
+  avatar: string;
+  date: Date;
+  deadline: Date;
+}
+
+declare interface IBoardData {
+  id: number;
+  status: IStatus;
+  tasks: ITask[];
+}

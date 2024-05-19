@@ -1,7 +1,7 @@
 "use client";
 
 import { useCurrentUser } from "@/hooks/use-auth";
-import { colors } from "@/lib/constent";
+import { colors } from "@/lib/constant";
 import { cn, debounce } from "@/lib/utils";
 import { addTask, isExistTask } from "@/server/actions";
 import {
@@ -13,12 +13,12 @@ import {
   useState,
 } from "react";
 import { ErrorMessage } from "../common";
-import { Notification } from "./project-head";
+import { INotification } from "./project-head";
 
-type ITaskCardModal = {
+export type ITaskCardModal = {
   project: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  openNotification: (props: Notification) => void;
+  openNotification: (props: INotification) => void;
 } & IRefetch;
 
 export const TaskCardModal: FC<ITaskCardModal> = ({

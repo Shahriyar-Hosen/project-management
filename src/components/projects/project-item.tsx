@@ -3,6 +3,7 @@ import { deleteProject } from "@/server/actions";
 import { faAdd, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { useStores } from "@/stores/provider";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,6 +21,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
 }) => {
   const [memberModal, setMemberModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const { search } = useStores((state) => state);
 
   const deleteHandler = async () => {
     await deleteProject({ name }).then((res) => {
@@ -29,7 +31,14 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
   };
 
   return (
-    <div className="relative flex flex-col items-start p-4 mt-3 bg-cyan-50/50 rounded-lg bg-opacity-90 group hover:bg-opacity-100">
+    <div
+      className={cn(
+        "relative flex flex-col items-start p-4 mt-3 bg-cyan-50/50 rounded-lg bg-opacity-90 group hover:bg-opacity-100",
+        search &&
+          name.toLowerCase().includes(search.toLowerCase()) &&
+          "ring ring-violet-400"
+      )}
+    >
       <div className="absolute top-0 right-0 opacity-0 items-center mt-3 mr-2 group-hover:opacity-100 transition-all delay-150">
         <button
           className={

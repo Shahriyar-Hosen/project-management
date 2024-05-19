@@ -1,13 +1,12 @@
 export type ProjectState = {
-  count: number;
   user: IUser | null;
+  search: string;
 };
 
 export type ProjectActions = {
   login: (user: IUser) => void;
   logout: () => void;
-  decrementCount: () => void;
-  incrementCount: () => void;
+  setSearch: (value: string) => void;
 };
 
 export type IStores = ProjectState & ProjectActions;
@@ -18,12 +17,12 @@ export const initStores = (): ProjectState => {
   const user = localUser ? (JSON.parse(localUser) as IUser) : null;
 
   return {
-    count: new Date().getFullYear(),
+    search: "",
     user,
   };
 };
 
 export const defaultInitState: ProjectState = {
-  count: 0,
+  search: "",
   user: null,
 };

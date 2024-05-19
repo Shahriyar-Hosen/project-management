@@ -58,6 +58,7 @@ enum TaskStatus {
 
 model Task {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  index       Int        @default(0)
   project     String
   status      TaskStatus @default(Backlog)
   color       Colors     @default(red)
@@ -66,4 +67,5 @@ model Task {
   email       String
   avatar      String
   date        DateTime
+  deadline    DateTime
 }

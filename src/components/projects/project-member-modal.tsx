@@ -53,7 +53,7 @@ export const ProjectMemberModal: FC<IModal> = ({
   }, [email, isExistingMember]);
 
   const onSelect = (data: string) => {
-    console.log("onSelect", data);
+    // console.log("onSelect", data);
   };
 
   const onChange = (data: string) => {

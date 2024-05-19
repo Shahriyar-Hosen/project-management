@@ -14,8 +14,6 @@ const Home: NextPage = () => {
     !user && router.push("/login");
   }, [router, user]);
 
-  console.log("Home Page render count");
-
   return (
     <main>
       <TeamsBody />

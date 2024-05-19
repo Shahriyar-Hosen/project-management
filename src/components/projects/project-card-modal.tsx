@@ -1,7 +1,7 @@
 "use client";
 
 import { useCurrentUser } from "@/hooks/use-auth";
-import { colors } from "@/lib/constent";
+import { colors } from "@/lib/constant";
 import { cn, debounce } from "@/lib/utils";
 import { addProject, isExistProject } from "@/server/actions";
 import {
@@ -52,7 +52,6 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({
   }, [projectExist, description, loading]);
 
   const filterBySearch = (value: string) => {
-    console.log(value);
     setName(value.toLocaleLowerCase());
   };
 
