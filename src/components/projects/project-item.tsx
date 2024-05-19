@@ -58,7 +58,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
       <Link href={`/${name}`}>
         <h2
           className={cn(
-            "flex items-center h-6 px-3 text-xs font-semibold rounded-full",
+            "flex items-center h-6 px-3 text-xs font-semibold rounded-full w-fit",
             {
               "text-red-600 bg-red-100": color === "red",
               "text-green-600 bg-green-100": color === "green",
