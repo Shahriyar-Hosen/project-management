@@ -148,7 +148,6 @@ export const getProject = async ({ email, name }: GetProject) => {
         },
       },
     });
-    console.log("🚀 ~ getProject ~ result:", result);
 
     return result;
   } catch (error: any) {
@@ -184,13 +183,11 @@ interface IAddTask {
   status: IStatus;
   avatar: string;
 }
-
 export const addTask = async (data: IAddTask) => {
   try {
     const result = await db.task.create({
       data: { ...data, date: new Date() },
     });
-    console.log("🚀 ~ addTask ~ result:", result);
 
     return result;
   } catch (error: any) {

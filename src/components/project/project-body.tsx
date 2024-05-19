@@ -4,7 +4,7 @@ export const ProjectBody = () => {
   return (
     <>
       <ProjectHead />
-      {/* <TeamItems /> */}
+      {/* <TaskManagement /> */}
     </>
   );
 };

@@ -49,8 +49,6 @@ export const ProjectHead = () => {
     queryFn: () => fetchRecentActivities(projectName),
   });
 
-  console.log("🚀 ~ ProjectHead ~ recentData:", recentData);
-
   useEffect(() => {
     user && refetch();
   }, [refetch, user]);
