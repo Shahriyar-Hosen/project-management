@@ -11,7 +11,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { ErrorMessage } from "./error";
+import { ErrorMessage } from "../common";
 
 interface IModal extends IRefetch {
   members: IMember[];

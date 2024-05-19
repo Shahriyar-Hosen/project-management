@@ -3,7 +3,7 @@
 import { useCurrentUser } from "@/hooks/use-auth";
 import { colors } from "@/lib/constent";
 import { cn, debounce } from "@/lib/utils";
-import { addProject, isExistProject } from "@/server/actions";
+import { addTask, isExistTask } from "@/server/actions";
 import {
   Dispatch,
   FC,
@@ -12,48 +12,50 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Notification } from ".";
 import { ErrorMessage } from "../common";
+import { Notification } from "./project-head";
 
-type IProjectCardModal = {
+type ITaskCardModal = {
+  project: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   openNotification: (props: Notification) => void;
-} & IRefetch;
+};
 
-export const ProjectCardModal: FC<IProjectCardModal> = ({
-  refetch,
+export const TaskCardModal: FC<ITaskCardModal> = ({
+  //   refetch,
+  project,
   setIsOpen,
   openNotification,
 }) => {
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [color, setColor] = useState<IColors>("red");
+  const [status, setStatus] = useState<IStatus>("Backlog");
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [projectExist, setProjectExist] = useState<boolean | undefined>(false);
+  const [taskExist, setTaskExist] = useState<boolean | undefined>(false);
 
   useEffect(() => {
-    const checkProject = async () => {
-      const isExist = await isExistProject(name);
-      setProjectExist(isExist);
+    const checkTask = async () => {
+      const isExist = await isExistTask(title);
+      setTaskExist(isExist);
     };
-    checkProject();
-  }, [name]);
+    checkTask();
+  }, [title]);
 
   const user = useCurrentUser();
 
   useEffect(() => {
     const isDisabled =
       loading ||
-      (projectExist ? true : false) ||
+      (taskExist ? true : false) ||
       description?.length === 0 ||
       false;
     setDisabled(isDisabled);
-  }, [projectExist, description, loading]);
+  }, [taskExist, description, loading]);
 
   const filterBySearch = (value: string) => {
-    console.log(value);
-    setName(value.toLocaleLowerCase());
+    value.length > 0 && setTitle(value);
   };
 
   const handleSearch = debounce((value) => filterBySearch(value), 500);
@@ -62,23 +64,27 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({
     e.preventDefault();
     setLoading(true);
     if (user)
-      await addProject({
-        name: name.toLowerCase(),
+      await addTask({
+        title,
         description,
         color,
+        project,
+        status,
         email: user.email,
+        avatar: user.avatar,
       })
         .then((res) => {
-          refetch();
+          //   refetch();
           setLoading(false);
           setIsOpen(false);
           openNotification({
             type: "success",
-            message: "Project Successfully Add!",
+            message: "Task Successfully Add!",
             description: `
-            ${name} project is added now.
-            This is a project description " ${description} ".  
-            and ${color} is a project color `,
+            ${title} task is added now.
+            This is a task description " ${description} ".  
+            Task Status - ${status}
+            and ${color} is a task color `,
           });
         })
         .catch((err: Error) => {
@@ -97,7 +103,7 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({
       <div className="relative bg-[#F9FAFB] w-11/12 md:w-2/5 sm:w-3/5 rounded-lg p-8 z-10">
         <div className="flex justify-between border-b pb-4">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center">
-            Add new project!
+            Add new task!
           </h3>
           <button
             onClick={() => setIsOpen(false)}
@@ -122,24 +128,24 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({
           <div className="flex flex-col gap-3">
             <div>
               <input
-                id="project-name"
-                name="project"
+                id="task-name"
+                name="task"
                 type="text"
-                autoComplete="project-name"
+                autoComplete="task-name"
                 required
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-violet-500 focus:border-violet-500 focus:z-10 sm:text-sm"
-                placeholder="Project name"
+                placeholder="Task title"
                 onChange={handleSearch}
               />
             </div>
             <div>
               <textarea
-                id="project-description"
+                id="task-description"
                 name="description"
-                autoComplete="project-description"
+                autoComplete="task-description"
                 required
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-violet-500 focus:border-violet-500 focus:z-10 sm:text-sm"
-                placeholder="Project description"
+                placeholder="Task description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -192,11 +198,11 @@ export const ProjectCardModal: FC<IProjectCardModal> = ({
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 disabled:bg-gray-300 disabled:hover:bg-gray-300"
               disabled={disabled}
             >
-              {!loading ? "Add Project" : "loading..."}
+              {!loading ? "Add Task" : "loading..."}
             </button>
           </div>
 
-          {projectExist && (
+          {taskExist && (
             <ErrorMessage message={"Team already exist! Try another name."} />
           )}
         </form>

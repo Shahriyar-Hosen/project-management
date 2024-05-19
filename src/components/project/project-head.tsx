@@ -1,14 +1,34 @@
 "use client";
 
+import { notification } from "antd";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-// import TeamCardModal from "./TeamCardModal";
+import { TaskCardModal } from ".";
 
-const TeamsHead = () => {
+export interface Notification {
+  type: NotificationType;
+  message?: string;
+  description?: string;
+}
+
+export const ProjectHead = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const [api, contextHolder] = notification.useNotification();
+
+  const projectName = pathname.slice(1).split("-").join(" ");
+
+  const openNotification = ({ type, message, description }: Notification) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement: "bottomRight",
+    });
+  };
 
   return (
     <div className="px-10 mt-6 flex justify-between">
-      <h1 className="text-2xl font-bold">Teams test</h1>
+      <h1 className="text-2xl font-bold capitalize">{projectName}</h1>
       <button
         onClick={() => setIsOpen(true)}
         className="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100"
@@ -28,9 +48,14 @@ const TeamsHead = () => {
         </svg>
       </button>
 
-      {/* {isOpen && <TeamCardModal setIsOpen={setIsOpen} />} */}
+      {isOpen && (
+        <TaskCardModal
+          project={projectName}
+          setIsOpen={setIsOpen}
+          openNotification={openNotification}
+        />
+      )}
+      {contextHolder}
     </div>
   );
 };
-
-export default TeamsHead;

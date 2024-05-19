@@ -1,9 +1,9 @@
-import TeamsHead from "./project-head";
+import { ProjectHead } from ".";
 
 export const ProjectBody = () => {
   return (
     <>
-      <TeamsHead />
+      <ProjectHead />
       {/* <TeamItems /> */}
     </>
   );

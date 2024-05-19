@@ -18,7 +18,7 @@ model User {
   ProjectMember ProjectMember[]
 }
 
-enum ProjectColor {
+enum Colors {
   red
   green
   yellow
@@ -32,7 +32,7 @@ model Project {
   id          String          @id @default(auto()) @map("_id") @db.ObjectId
   name        String          @unique
   description String
-  color       ProjectColor
+  color       Colors          @default(red)
   email       String
   date        DateTime
   members     ProjectMember[]
@@ -57,12 +57,13 @@ enum TaskStatus {
 }
 
 model Task {
-  id      String     @id @default(auto()) @map("_id") @db.ObjectId
-  project String
-  status  TaskStatus
-  color   String
-  title   String
-  email   String
-  avatar  String
-  date    DateTime
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  project     String
+  status      TaskStatus @default(Backlog)
+  color       Colors     @default(red)
+  title       String     @unique
+  description String
+  email       String
+  avatar      String
+  date        DateTime
 }

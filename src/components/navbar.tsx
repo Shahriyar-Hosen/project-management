@@ -6,8 +6,8 @@ import { useStores } from "@/stores/provider";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
 
 export const Navbar = () => {
   const { logout } = useStores((state) => state);
@@ -28,13 +28,20 @@ export const Navbar = () => {
   return (
     <div className="flex items-center justify-between py-3 px-10 bg-white bg-opacity-75">
       <div className="flex items-center">
-        <Image
-          src="/logo.png"
-          width={40}
-          height={40}
-          alt="logo"
-          className="h-10 w-10"
-        />
+        <Link href="/">
+          <Image
+            src="/logo.png"
+            width={40}
+            height={40}
+            alt="logo"
+            className="h-10 w-10"
+          />
+        </Link>
+        <Link href="/">
+          <h5 className="text-gray-600 hidden lg:block text-balance font-medium hover:font-semibold pl-5">
+            Projects
+          </h5>
+        </Link>
 
         <input
           className={

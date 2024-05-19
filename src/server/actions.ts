@@ -35,11 +35,25 @@ export const isExistProject = async (
   }
 };
 
+export const isExistTask = async (
+  task: string
+): Promise<boolean | undefined> => {
+  try {
+    const isProjectExists = await db.task.findFirst({
+      where: { title: task },
+    });
+
+    return isProjectExists ? true : false;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~ :-", error);
+  }
+};
+
 interface IAddProject {
   name: string;
   email: string;
   description: string;
-  color: IProjectColor;
+  color: IColors;
 }
 export const addProject = async ({ email, ...others }: IAddProject) => {
   try {
@@ -121,6 +135,29 @@ export const deleteProject = async ({ name }: { name: string }) => {
     });
 
     return { name };
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
+
+interface IAddTask {
+  title: string;
+  email: string;
+  description: string;
+  color: IColors;
+  project: string;
+  status: IStatus;
+  avatar: string;
+}
+
+export const addTask = async (data: IAddTask) => {
+  try {
+    const result = await db.task.create({
+      data: { ...data, date: new Date() },
+    });
+    console.log("🚀 ~ addTask ~ result:", result);
+
+    return result;
   } catch (error: any) {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
   }
