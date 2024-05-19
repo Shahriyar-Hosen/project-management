@@ -1,18 +1,25 @@
-import { cn, dynamicStatus } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { updateTask } from "@/server/actions";
 import { Button, Drawer } from "antd";
 import moment from "moment";
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC, FormEvent, useEffect, useState } from "react";
 
-type IEditTask = { open: boolean; onClose: () => void } & ITask;
-export const EditTask: FC<IEditTask> = ({ onClose, open, ...task }) => {
-  const { avatar, project, status, ...updateAble } = task;
+type IEditTask = { open: boolean; onClose: () => void } & ITask & IRefetch;
+export const EditTask: FC<IEditTask> = ({
+  onClose,
+  open,
+  refetch,
+  ...task
+}) => {
+  const { avatar, project, status, id, ...updateAble } = task;
 
   const [deadline, setDeadline] = useState(updateAble.deadline);
   const [title, setTitle] = useState(updateAble.title);
   const [description, setDescription] = useState(updateAble.description);
   const [email, setEmail] = useState(updateAble.email);
   const [enable, setEnable] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const condition =
@@ -23,7 +30,19 @@ export const EditTask: FC<IEditTask> = ({ onClose, open, ...task }) => {
       false;
 
     setEnable(condition);
-  }, [deadline, title, description, email, updateAble]);
+  }, [deadline, title, description, email, updateAble, id]);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    await updateTask({ id, deadline, title, description, email }).then(
+      (res) => {
+        refetch();
+        onClose();
+      }
+    );
+    setLoading(false);
+  };
 
   return (
     <Drawer
@@ -55,16 +74,20 @@ export const EditTask: FC<IEditTask> = ({ onClose, open, ...task }) => {
         </div>
         <div>
           <span
-            className={cn(
-              "text-xs font-bold px-2.5 py-0.5 rounded-full",
-              dynamicStatus(status)
-            )}
+            className={cn("text-xs font-bold px-2.5 py-0.5 rounded-full", {
+              "text-pink-600 bg-pink-100": status === "Backlog",
+              "text-orange-600 bg-orange-100": status === "Ready",
+              "text-yellow-600 bg-yellow-100": status === "Doing",
+              "text-violet-600 bg-violet-100": status === "Review",
+              "text-red-600 bg-red-100": status === "Blocked",
+              "text-green-600 bg-green-100": status === "Done",
+            })}
           >
             {status}
           </span>
         </div>
       </div>
-      <div className="mt-5 space-y-2.5">
+      <form onSubmit={handleSubmit} className="mt-5 space-y-2.5">
         <input
           type="text"
           onChange={(e) => setTitle(e.target.value)}
@@ -99,15 +122,16 @@ export const EditTask: FC<IEditTask> = ({ onClose, open, ...task }) => {
               className="font-semibold w-fit focus:outline-none"
             />
           </div>
-          <Button
-            type="primary"
-            className="w-full disabled:bg-opacity-90 disabled:cursor-not-allowed"
-            disabled={!enable}
-          >
-            Update
-          </Button>
         </div>
-      </div>
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="w-full disabled:bg-opacity-90 disabled:cursor-not-allowed"
+          disabled={!enable || loading}
+        >
+          Update
+        </Button>
+      </form>
     </Drawer>
   );
 };

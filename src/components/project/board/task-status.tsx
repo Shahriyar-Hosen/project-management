@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { FC, useState } from "react";
 import { INotification } from "../project-head";
 import { TaskCardModal } from "../task-card-modal";
 
@@ -7,7 +7,6 @@ interface ITaskStatus extends IRefetch {
   item: number;
   addTaskBtn?: boolean;
   project: string;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
   openNotification: (props: INotification) => void;
 }
 export const TaskStatus: FC<ITaskStatus> = ({

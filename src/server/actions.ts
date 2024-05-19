@@ -269,3 +269,39 @@ export const getAllBoardData = async ({ project }: { project: string }) => {
     console.log("🚀 ~ line: 39 ~ All Board Data error ~:", error);
   }
 };
+
+interface IUpdateTask {
+  id: string;
+  title: string;
+  email: string;
+  description: string;
+  // status: IStatus;
+  // index: string;
+  deadline: Date;
+  avatar?: string;
+}
+export const updateTask = async ({ id, ...data }: IUpdateTask) => {
+  try {
+    let updateData: any = {};
+
+    if (data.email) {
+      const user = await db.user.findFirst({ where: { email: data.email } });
+      if (user) {
+        data.email = user.email;
+        data.avatar = user.avatar;
+      }
+    }
+
+    const result = await db.task.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    });
+    console.log("🚀 ~ updateTask ~ result:", result);
+
+    return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};

@@ -20,7 +20,6 @@ const fetchBoardData = async (project: string) => {
 
 export const TaskBoard: FC = () => {
   const [data, setData] = useState<IBoardData[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => setData(boardDataDefault), []);
 
@@ -128,7 +127,6 @@ export const TaskBoard: FC = () => {
                       item={val.tasks.length}
                       openNotification={openNotification}
                       project={projectName}
-                      setIsOpen={setIsOpen}
                       refetch={refetch}
                       addTaskBtn={val.status === "Backlog"}
                     />
@@ -145,7 +143,7 @@ export const TaskBoard: FC = () => {
                               {...provided.draggableProps}
                               ref={provided.innerRef}
                             >
-                              <TaskCard {...task} />
+                              <TaskCard {...task} refetch={refetch} />
                             </div>
                           )}
                         </Draggable>

@@ -68,7 +68,15 @@ export const ProjectHead = () => {
       <h1
         className={cn(
           "text-3xl font-bold capitalize rounded-full px-5 py-1 mt-6 bg-cyan-100 w-fit text-center mx-auto",
-          dynamicColor(projectColor)
+          {
+            "text-red-600 bg-red-100": projectColor === "red",
+            "text-green-600 bg-green-100": projectColor === "green",
+            "text-yellow-600 bg-yellow-100": projectColor === "yellow",
+            "text-violet-600 bg-violet-100": projectColor === "violet",
+            "text-pink-600 bg-pink-100": projectColor === "pink",
+            "text-orange-600 bg-orange-100": projectColor === "orange",
+            "text-teal-600 bg-teal-100": projectColor === "teal",
+          }
         )}
       >
         {projectName}

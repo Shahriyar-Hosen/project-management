@@ -7,13 +7,13 @@ import Image from "next/image";
 import { FC, useState } from "react";
 import { EditTask } from "./edit-task";
 
-export const TaskCard: FC<ITask> = (task) => {
+export const TaskCard: FC<ITask & IRefetch> = (task) => {
   const [open, setOpen] = useState(false);
 
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [isNotUser, setIsNotUser] = useState(false);
-  const { avatar, color, deadline, description, email, title } = task;
+  const { avatar, color, deadline, description, email, title, refetch } = task;
 
   //   const { search } = useSelector((state) => state.search) || {};
 
@@ -56,7 +56,15 @@ export const TaskCard: FC<ITask> = (task) => {
         <span
           className={cn(
             "flex items-center h-6 px-3 text-xs font-semibold rounded-full capitalize",
-            dynamicColor(color)
+            {
+              "text-red-600 bg-red-100": color === "red",
+              "text-green-600 bg-green-100": color === "green",
+              "text-yellow-600 bg-yellow-100": color === "yellow",
+              "text-violet-600 bg-violet-100": color === "violet",
+              "text-pink-600 bg-pink-100": color === "pink",
+              "text-orange-600 bg-orange-100": color === "orange",
+              "text-teal-600 bg-teal-100": color === "teal",
+            }
           )}
         >
           {title}
@@ -91,7 +99,7 @@ export const TaskCard: FC<ITask> = (task) => {
         </div>
       </div>
 
-      <EditTask open={open} onClose={onClose} {...task} />
+      <EditTask open={open} onClose={onClose} {...task} refetch={refetch} />
       {deleteModal && (
         <DeleteModal
           deleteHandler={deleteHandler}
