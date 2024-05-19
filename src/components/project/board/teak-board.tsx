@@ -8,6 +8,9 @@ import { DndContext } from "./dnd-context";
 
 export const TaskBoard: FC<{ defaultDb: IDB[] }> = ({ defaultDb }) => {
   const [data, setData] = useState<IDB[] | []>([]);
+
+  useEffect(() => setData(defaultDb), [defaultDb]);
+
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) return;
@@ -32,9 +35,6 @@ export const TaskBoard: FC<{ defaultDb: IDB[] }> = ({ defaultDb }) => {
       setData([...newData]);
     }
   };
-  useEffect(() => {
-    setData(defaultDb);
-  }, [defaultDb]);
 
   return (
     <DndContext onDragEnd={onDragEnd}>
