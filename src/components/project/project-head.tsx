@@ -155,7 +155,11 @@ export const ProjectHead = () => {
                 >
                   <div className="space-y-1">
                     <h1 className="font-semibold capitalize">{title}</h1>
-                    <p className="text-sm">{description} </p>
+                    <p className="text-sm max-w-sm">
+                      {description.length > 50
+                        ? description.slice(0, 50) + "..."
+                        : description}{" "}
+                    </p>
                   </div>
                   <div className="flex flex-col justify-center items-end gap-1">
                     <button className="bg-green-400 rounded-full px-2.5">
