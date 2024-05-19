@@ -1,5 +1,6 @@
+import { ErrorMessage } from "@/components/common";
 import { cn } from "@/lib/utils";
-import { updateTask } from "@/server/actions";
+import { isExistTask, updateTask } from "@/server/actions";
 import { Button, Drawer } from "antd";
 import moment from "moment";
 import Image from "next/image";
@@ -20,6 +21,17 @@ export const EditTask: FC<IEditTask> = ({
   const [email, setEmail] = useState(updateAble.email);
   const [enable, setEnable] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [taskExist, setTaskExist] = useState<boolean | undefined>(false);
+
+  useEffect(() => {
+    const checkTask = async () => {
+      const isExist = await isExistTask(title);
+      setTaskExist(isExist);
+    };
+    if (title !== updateAble.title) {
+      checkTask();
+    }
+  }, [title, updateAble.title]);
 
   useEffect(() => {
     const condition =
@@ -30,7 +42,7 @@ export const EditTask: FC<IEditTask> = ({
       false;
 
     setEnable(condition);
-  }, [deadline, title, description, email, updateAble, id]);
+  }, [deadline, title, description, email, updateAble, open]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -132,6 +144,9 @@ export const EditTask: FC<IEditTask> = ({
           Update
         </Button>
       </form>
+      {taskExist && (
+        <ErrorMessage message={"Task already exist! Try another name."} />
+      )}
     </Drawer>
   );
 };

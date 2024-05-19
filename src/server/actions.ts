@@ -275,30 +275,26 @@ interface IUpdateTask {
   title: string;
   email: string;
   description: string;
-  // status: IStatus;
-  // index: string;
   deadline: Date;
   avatar?: string;
 }
-export const updateTask = async ({ id, ...data }: IUpdateTask) => {
+export const updateTask = async ({ id, email, ...data }: IUpdateTask) => {
   try {
-    let updateData: any = {};
-
-    if (data.email) {
-      const user = await db.user.findFirst({ where: { email: data.email } });
+    if (email) {
+      const user = await db.user.findFirst({ where: { email: email } });
       if (user) {
-        data.email = user.email;
-        data.avatar = user.avatar;
+        const result = await db.task.update({
+          where: { id },
+          data: { email: user.email, avatar: user.avatar },
+        });
+        return result;
       }
     }
 
     const result = await db.task.update({
-      where: {
-        id: id,
-      },
+      where: { id },
       data: data,
     });
-    console.log("🚀 ~ updateTask ~ result:", result);
 
     return result;
   } catch (error: any) {
