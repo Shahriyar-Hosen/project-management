@@ -1,4 +1,3 @@
-export * from "./error";
 export * from "./project-body";
 export * from "./project-card-modal";
 export * from "./project-head";

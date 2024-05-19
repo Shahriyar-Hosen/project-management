@@ -35,11 +35,25 @@ export const isExistProject = async (
   }
 };
 
+export const isExistTask = async (
+  task: string
+): Promise<boolean | undefined> => {
+  try {
+    const isProjectExists = await db.task.findFirst({
+      where: { title: task },
+    });
+
+    return isProjectExists ? true : false;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~ :-", error);
+  }
+};
+
 interface IAddProject {
   name: string;
   email: string;
   description: string;
-  color: IProjectColor;
+  color: IColors;
 }
 export const addProject = async ({ email, ...others }: IAddProject) => {
   try {
@@ -107,6 +121,41 @@ export const getAllProject = async ({ email }: { email: string }) => {
   }
 };
 
+type GetProject = { name: string; email: string };
+export const getProject = async ({ email, name }: GetProject) => {
+  try {
+    const result = await db.project.findFirst({
+      where: {
+        name,
+        members: {
+          some: {
+            userEmail: email,
+          },
+        },
+      },
+      include: {
+        members: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                email: true,
+                avatar: true,
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    console.log("🚀 ~ getProject ~ result:", result);
+
+    return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
+
 export const deleteProject = async ({ name }: { name: string }) => {
   try {
     await db.projectMember.deleteMany({
@@ -121,6 +170,47 @@ export const deleteProject = async ({ name }: { name: string }) => {
     });
 
     return { name };
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
+
+interface IAddTask {
+  title: string;
+  email: string;
+  description: string;
+  color: IColors;
+  project: string;
+  status: IStatus;
+  avatar: string;
+}
+
+export const addTask = async (data: IAddTask) => {
+  try {
+    const result = await db.task.create({
+      data: { ...data, date: new Date() },
+    });
+    console.log("🚀 ~ addTask ~ result:", result);
+
+    return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
+
+export const getRecentActivities = async ({ project }: { project: string }) => {
+  try {
+    const result = await db.task.findMany({
+      where: {
+        project,
+      },
+      orderBy: {
+        date: "desc",
+      },
+      take: 3,
+    });
+
+    return result;
   } catch (error: any) {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
   }

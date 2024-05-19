@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const Home: NextPage = () => {
-  const user = useStores((state) => state);
+  const { user } = useStores((state) => state);
   const router = useRouter();
 
   useEffect(() => {

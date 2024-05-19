@@ -26,12 +26,12 @@ declare interface IProject {
   name: string;
   email: string;
   description: string;
-  color: IProjectColor;
+  color: IColors;
   date: Date;
   members: IMember[];
 }
 
-declare type IProjectColor =
+declare type IColors =
   | "red"
   | "green"
   | "yellow"
@@ -40,4 +40,14 @@ declare type IProjectColor =
   | "orange"
   | "teal";
 
+declare type IStatus =
+  | "Backlog"
+  | "Ready"
+  | "Doing"
+  | "Review"
+  | "Blocked"
+  | "Done";
+
 declare type IRefetch = { refetch: () => void };
+
+declare type NotificationType = "success" | "info" | "warning" | "error";

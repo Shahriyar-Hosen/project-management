@@ -2,7 +2,6 @@ import { notification } from "antd";
 import { FC, useState } from "react";
 import { ProjectCardModal } from ".";
 
-type NotificationType = "success" | "info" | "warning" | "error";
 export interface Notification {
   type: NotificationType;
   message?: string;
