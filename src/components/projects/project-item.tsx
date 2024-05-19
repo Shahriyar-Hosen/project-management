@@ -37,7 +37,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
         >
           <FontAwesomeIcon icon={faAdd} />
         </button>
-        <Link href={`/${name}`}>
+        <Link href={`/${name.split(" ").join("-")}`}>
           <button
             className={
               "text-base transition delay-75 ease-in-out text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 scale-90"
@@ -55,7 +55,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
           <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>
-      <Link href={`/${name}`}>
+      <Link href={`/${name.split(" ").join("-")}`}>
         <h2
           className={cn(
             "flex items-center h-6 px-3 text-xs font-semibold rounded-full w-fit",
