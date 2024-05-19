@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 
-import { getAllBoardData } from "@/server/actions";
+import { getAllBoardData, updateTaskStatus } from "@/server/actions";
 import { useQuery } from "@tanstack/react-query";
 import { notification } from "antd";
 import { usePathname } from "next/navigation";
@@ -20,8 +20,21 @@ const fetchBoardData = async (project: string) => {
 
 export const TaskBoard: FC = () => {
   const [data, setData] = useState<IBoardData[]>([]);
+  const [statusAndIndex, setStatusAndIndex] = useState<ITask>();
 
   useEffect(() => setData(boardDataDefault), []);
+  useEffect(() => {
+    if (statusAndIndex) {
+      const updateDb = async () => {
+        updateTaskStatus({
+          id: statusAndIndex.id,
+          status: statusAndIndex.status,
+          index: statusAndIndex.index,
+        });
+      };
+      updateDb();
+    }
+  }, [statusAndIndex]);
 
   const pathname = usePathname();
   const mainPath = pathname.slice(1).split("~");
@@ -48,7 +61,6 @@ export const TaskBoard: FC = () => {
     if (!destination) return;
 
     if (source.droppableId !== destination.droppableId) {
-      console.log("🚀 ~ onDragEnd ~ :", { source, destination });
       // Update Status
       const newData: IBoardData[] = [...JSON.parse(JSON.stringify(data))]; //shallow copy concept
 
@@ -58,16 +70,13 @@ export const TaskBoard: FC = () => {
       const newDroppableIndex = newData.findIndex(
         (x) => String(x.id) == destination.droppableId.split("-")[1]
       );
-      console.log("🚀 ~ onDragEnd ~ Index:", {
-        newDroppableIndex,
-        oldDroppableIndex,
-      });
 
       const [item] = newData[oldDroppableIndex].tasks.splice(source.index, 1);
 
       item.status = newData[newDroppableIndex].status;
       item.index = destination.index;
       newData[newDroppableIndex].tasks.splice(destination.index, 0, item);
+      setStatusAndIndex(item);
       console.log("🚀 ~ onDragEnd ~ item:", {
         item,
         newDroppable: newData[newDroppableIndex],

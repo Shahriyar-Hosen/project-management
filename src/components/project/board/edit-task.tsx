@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@/components/common";
 import { cn } from "@/lib/utils";
-import { isExistTask, updateTask } from "@/server/actions";
+import { updateTask, updateTaskEmail } from "@/server/actions";
 import { Button, Drawer } from "antd";
 import moment from "moment";
 import Image from "next/image";
@@ -23,15 +23,15 @@ export const EditTask: FC<IEditTask> = ({
   const [loading, setLoading] = useState(false);
   const [taskExist, setTaskExist] = useState<boolean | undefined>(false);
 
-  useEffect(() => {
-    const checkTask = async () => {
-      const isExist = await isExistTask(title);
-      setTaskExist(isExist);
-    };
-    if (title !== updateAble.title) {
-      checkTask();
-    }
-  }, [title, updateAble.title]);
+  // useEffect(() => {
+  //   const checkTask = async () => {
+  //     const isExist = await isExistTask(title);
+  //     setTaskExist(isExist);
+  //   };
+  //   if (title !== updateAble.title) {
+  //     checkTask();
+  //   }
+  // }, [title, updateAble.title]);
 
   useEffect(() => {
     const condition =
@@ -42,17 +42,27 @@ export const EditTask: FC<IEditTask> = ({
       false;
 
     setEnable(condition);
-  }, [deadline, title, description, email, updateAble, open]);
+  }, [deadline, title, description, email, updateAble, id]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    await updateTask({ id, deadline, title, description, email }).then(
-      (res) => {
-        refetch();
-        onClose();
-      }
-    );
+
+    if (email !== updateAble.email) {
+      await updateTaskEmail({ id, email }).then((res) => {
+        console.log("🚀 ~ handleSubmit ~ res:", res);
+        if (res) {
+          refetch();
+          onClose();
+        }
+      });
+    }
+    const data = { id, deadline, title, description };
+    await updateTask(data).then((res) => {
+      refetch();
+      onClose();
+    });
+
     setLoading(false);
   };
 

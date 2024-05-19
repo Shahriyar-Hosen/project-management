@@ -273,30 +273,52 @@ export const getAllBoardData = async ({ project }: { project: string }) => {
 interface IUpdateTask {
   id: string;
   title: string;
-  email: string;
   description: string;
   deadline: Date;
   avatar?: string;
 }
-export const updateTask = async ({ id, email, ...data }: IUpdateTask) => {
+export const updateTask = async ({ id, ...data }: IUpdateTask) => {
   try {
-    if (email) {
-      const user = await db.user.findFirst({ where: { email: email } });
-      if (user) {
-        const result = await db.task.update({
-          where: { id },
-          data: { email: user.email, avatar: user.avatar },
-        });
-        return result;
-      }
-    }
+    console.log("🚀 ~ updateTask ~ data:", data);
 
     const result = await db.task.update({
       where: { id },
       data: data,
     });
 
+    console.log("🚀 ~ updateTask ~ result:", result);
+
     return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
+
+type UpdateTaskStatus = { id: string; status: IStatus; index: number };
+export const updateTaskStatus = async ({ id, ...data }: UpdateTaskStatus) => {
+  try {
+    const result = await db.task.update({
+      where: { id },
+      data: data,
+    });
+
+    return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
+
+type UpdateTaskEmail = { id: string; email: string };
+export const updateTaskEmail = async ({ id, email }: UpdateTaskEmail) => {
+  try {
+    const user = await db.user.findFirst({ where: { email: email } });
+    if (user) {
+      const result = await db.task.update({
+        where: { id },
+        data: { email: user.email, avatar: user.avatar },
+      });
+      return result;
+    }
   } catch (error: any) {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
   }
