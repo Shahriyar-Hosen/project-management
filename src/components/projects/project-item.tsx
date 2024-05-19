@@ -2,7 +2,9 @@ import { cn } from "@/lib/utils";
 import { deleteProject } from "@/server/actions";
 import { faAdd, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Image } from "antd";
+
+import moment from "moment";
+import Image from "next/image";
 import Link from "next/link";
 import { FC, useState } from "react";
 import { ProjectMemberModal } from ".";
@@ -37,7 +39,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
         >
           <FontAwesomeIcon icon={faAdd} />
         </button>
-        <Link href={`/${name.split(" ").join("-")}`}>
+        <Link href={`/${name.split(" ").join("-")}~${color}`}>
           <button
             className={
               "text-base transition delay-75 ease-in-out text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 scale-90"
@@ -55,7 +57,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
           <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>
-      <Link href={`/${name.split(" ").join("-")}`}>
+      <Link href={`/${name.split(" ").join("-")}~${color}`}>
         <h2
           className={cn(
             "flex items-center h-6 px-3 text-xs font-semibold rounded-full w-fit",
@@ -89,7 +91,7 @@ export const ProjectItem: FC<IProject & IRefetch> = ({
             />
           </svg>
           <span className="ml-1 leading-none">
-            {new Date(date).toLocaleDateString()}
+            {moment(date).format("MMMM Do YYYY")}
           </span>
         </div>
 

@@ -121,6 +121,41 @@ export const getAllProject = async ({ email }: { email: string }) => {
   }
 };
 
+type GetProject = { name: string; email: string };
+export const getProject = async ({ email, name }: GetProject) => {
+  try {
+    const result = await db.project.findFirst({
+      where: {
+        name,
+        members: {
+          some: {
+            userEmail: email,
+          },
+        },
+      },
+      include: {
+        members: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                email: true,
+                avatar: true,
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    console.log("🚀 ~ getProject ~ result:", result);
+
+    return result;
+  } catch (error: any) {
+    console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
+  }
+};
+
 export const deleteProject = async ({ name }: { name: string }) => {
   try {
     await db.projectMember.deleteMany({
