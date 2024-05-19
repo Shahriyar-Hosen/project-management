@@ -13,3 +13,5 @@ export const DOING = "doing";
 export const REVIEW = "review";
 export const BLOCKED = "blocked";
 export const DONE = "done";
+
+export type IBordStatus = { id: number; title: string };

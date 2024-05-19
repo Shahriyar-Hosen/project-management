@@ -1,4 +1,4 @@
-import { BACKLOG, BLOCKED, DOING, DONE, READY, REVIEW } from "@/lib/constent";
+import { BACKLOG, BLOCKED, DOING, DONE, READY, REVIEW } from "@/lib/constant";
 // import { useDrop } from "react-dnd";
 import { ProjectsHead } from "./task-head";
 import { TaskCards } from "./tesx-cards";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCurrentUser } from "@/hooks/use-auth";
-import { colors } from "@/lib/constent";
+import { colors } from "@/lib/constant";
 import { cn, debounce } from "@/lib/utils";
 import { addTask, isExistTask } from "@/server/actions";
 import {
