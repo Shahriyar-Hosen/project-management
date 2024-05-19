@@ -160,7 +160,7 @@ export const ProjectHead = () => {
                     </p>
                   </div>
                   <div className="flex flex-col justify-center items-end gap-1">
-                    <button className="bg-green-400 rounded-full px-2.5">
+                    <button className="bg-green-400/50 rounded-full px-2.5 text-sm font-semibold text-green-700">
                       {status}
                     </button>
                     <p className="text-sm">
@@ -221,7 +221,7 @@ export const ProjectHead = () => {
                     </div>
                   </div>
                   {member.userEmail === email && (
-                    <button className="mt-2.5 w-full rounded-full p-0.5 px-2 text-sm font-semibold bg-green-300 text-green-700">
+                    <button className="mt-2.5 w-full rounded-full p-0.5 px-2 text-sm font-semibold bg-green-300/50 text-green-700">
                       Author
                     </button>
                   )}

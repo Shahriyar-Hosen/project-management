@@ -1,10 +1,10 @@
-import { ProjectHead } from ".";
+import { ProjectHead, TaskManagementBoard } from ".";
 
 export const ProjectBody = () => {
   return (
     <>
       <ProjectHead />
-      {/* <TaskManagement /> */}
+      <TaskManagementBoard />
     </>
   );
 };
