@@ -3,14 +3,15 @@
 import { FC, useEffect, useState } from "react";
 import { Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 
-import { cn } from "@/lib/utils";
 import { getAllBoardData } from "@/server/actions";
 import { useQuery } from "@tanstack/react-query";
+import { notification } from "antd";
 import { usePathname } from "next/navigation";
+import { INotification } from "../project-head";
 import { DndContext } from "./dnd-context";
+import { TaskCard } from "./task-card";
 import { TaskStatus } from "./task-status";
 import { TaskCards } from "./tesx-cards";
-import { TaskCard } from "./task-card";
 
 const fetchBoardData = async (project: string) => {
   return await getAllBoardData({ project });
@@ -18,6 +19,7 @@ const fetchBoardData = async (project: string) => {
 
 export const TaskBoard: FC<{ defaultDb: IBoardData[] }> = ({ defaultDb }) => {
   const [data, setData] = useState<IBoardData[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => setData(defaultDb), [defaultDb]);
 
@@ -26,8 +28,8 @@ export const TaskBoard: FC<{ defaultDb: IBoardData[] }> = ({ defaultDb }) => {
   const projectName = mainPath[0].split("-").join(" ");
   const {
     data: dbData,
-    isLoading: dbLoading,
-    refetch: dbRefetch,
+    isLoading,
+    refetch,
   } = useQuery({
     queryKey: ["tasks board"],
     queryFn: () => fetchBoardData(projectName),
@@ -90,12 +92,23 @@ export const TaskBoard: FC<{ defaultDb: IBoardData[] }> = ({ defaultDb }) => {
     }
   };
 
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = ({ type, message, description }: INotification) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement: "bottomRight",
+    });
+  };
+
   return (
     <DndContext onDragEnd={onDragEnd}>
       <div className="pt-20 h-screen">
+        {contextHolder}
         <h1 className="text-center font-bold text-2xl">
           Task Management Board
         </h1>
+
         <div className="flex flex-grow px-10 space-x-6 overflow-auto scrollbar-thin scrollbar-thumb-slate-800/80 scrollbar-track-transparent scrollbar-thumb-rounded-full z-10 h-full mt-5">
           {data.map((val, index) => {
             return (
@@ -109,7 +122,15 @@ export const TaskBoard: FC<{ defaultDb: IBoardData[] }> = ({ defaultDb }) => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
-                    <TaskStatus title={val.status} item={val.tasks.length} />
+                    <TaskStatus
+                      title={val.status}
+                      item={val.tasks.length}
+                      openNotification={openNotification}
+                      project={projectName}
+                      setIsOpen={setIsOpen}
+                      refetch={refetch}
+                      addTaskBtn={val.status === "Backlog"}
+                    />
                     <TaskCards>
                       {val.tasks?.map((task, i) => (
                         <Draggable
@@ -119,16 +140,11 @@ export const TaskBoard: FC<{ defaultDb: IBoardData[] }> = ({ defaultDb }) => {
                         >
                           {(provided) => (
                             <div
-                              // className="bg-gray-200 mx-1 px-4 py-3 my-3 w-full"
                               {...provided.dragHandleProps}
                               {...provided.draggableProps}
                               ref={provided.innerRef}
                             >
                               <TaskCard {...task} />
-                              {/* <h3>{task.status}</h3>
-                            <h2>{task.title}</h2>
-                            <h2 className="max-w-full">{task.description}</h2>
-                            <h2>{task.index}</h2> */}
                             </div>
                           )}
                         </Draggable>

@@ -17,7 +17,7 @@ const fetchProject = async (email = "", name: string) =>
 const fetchRecentActivities = async (project: string) =>
   await getRecentActivities({ project });
 
-export interface Notification {
+export interface INotification {
   type: NotificationType;
   message?: string;
   description?: string;
@@ -27,7 +27,6 @@ export const ProjectHead = () => {
   const [memberModal, setMemberModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const [api, contextHolder] = notification.useNotification();
 
   const mainPath = pathname.slice(1).split("~");
   const projectName = mainPath[0].split("-").join(" ");
@@ -53,7 +52,8 @@ export const ProjectHead = () => {
     user && refetch();
   }, [refetch, user]);
 
-  const openNotification = ({ type, message, description }: Notification) => {
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = ({ type, message, description }: INotification) => {
     api[type]({
       message: message,
       description: description,

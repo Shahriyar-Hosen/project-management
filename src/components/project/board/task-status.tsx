@@ -1,7 +1,23 @@
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
+import { INotification } from "../project-head";
+import { TaskCardModal } from "../task-card-modal";
 
-type ITaskStatus = { title: string; item: number; addTaskBtn?: boolean };
-export const TaskStatus: FC<ITaskStatus> = ({ title, item, addTaskBtn }) => {
+interface ITaskStatus extends IRefetch {
+  title: string;
+  item: number;
+  addTaskBtn?: boolean;
+  project: string;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  openNotification: (props: INotification) => void;
+}
+export const TaskStatus: FC<ITaskStatus> = ({
+  item,
+  title,
+  project,
+  refetch,
+  addTaskBtn,
+  openNotification,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -30,7 +46,14 @@ export const TaskStatus: FC<ITaskStatus> = ({ title, item, addTaskBtn }) => {
           </svg>
         </button>
       )}
-      {/* {modalOpen && <AddProjectModal setModalOpen={setModalOpen} />} */}
+      {modalOpen && (
+        <TaskCardModal
+          refetch={refetch}
+          project={project}
+          setIsOpen={setModalOpen}
+          openNotification={openNotification}
+        />
+      )}
     </div>
   );
 };
