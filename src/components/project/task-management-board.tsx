@@ -1,7 +1,7 @@
 import { BACKLOG, BLOCKED, DOING, DONE, READY, REVIEW } from "@/lib/constant";
 // import { useDrop } from "react-dnd";
 import { ProjectsHead } from "./task-head";
-import { TaskCards } from "./tesx-cards";
+import { TaskCards } from "./board/tesx-cards";
 // import { BACKLOG, BLOCKED, DOING, DONE, READY, REVIEW } from '../../data/types';
 // import {
 //     useEditProjectMutation,

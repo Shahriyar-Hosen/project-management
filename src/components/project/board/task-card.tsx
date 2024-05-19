@@ -4,14 +4,25 @@ import { FC, useState } from "react";
 import { faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { useDrag } from "react-dnd";
-import { DeleteModal } from "../common";
+import { DeleteModal } from "../../common";
 // import { useDeleteProjectMutation } from '../../features/projects/projectsApi';
 // import toast from 'react-hot-toast';
 // import { useSelector } from 'react-redux';
 // import DeleteModal from '../common/DeleteModal';
 
-export const TaskCard: FC<any> = ({ project, type, index, options }) => {
-  const { id, avatar, date, color, team, title, email } = project || {};
+export const TaskCard: FC<ITask> = ({
+  avatar,
+  color,
+  date,
+  description,
+  email,
+  id,
+  index,
+  project,
+  status,
+  title,
+}) => {
+  // const { id, avatar, date, color, team, title, email } = project || {};
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [isNotUser, setIsNotUser] = useState(false);
@@ -56,28 +67,29 @@ export const TaskCard: FC<any> = ({ project, type, index, options }) => {
         //  }
         // ref={dragRef}
       >
-        {options && (
-          <div className="absolute top-0 right-0 hidden items-center mt-3 mr-2 group-hover:flex">
-            <button
-              className={`text-base transition delay-75 ease-in-out scale-0 text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 ${
-                isOptionsOpen && "scale-90"
-              }`}
-              onClick={() => setDeleteModal(true)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-            <button
-              onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-              className="text-base text-gray-500 px-2 py-1 ml-1 rounded hover:bg-gray-200 hover:text-gray-700"
-            >
-              <FontAwesomeIcon icon={faEllipsisVertical} />
-            </button>
-          </div>
-        )}
+        {/* {options && ( */}
+        <div className="absolute top-0 right-0 hidden items-center mt-3 mr-2 group-hover:flex">
+          <button
+            className={`text-base transition delay-75 ease-in-out scale-0 text-gray-700 px-2 py-1 rounded hover:bg-violet-100 hover:text-violet-600 ${
+              isOptionsOpen && "scale-90"
+            }`}
+            onClick={() => setDeleteModal(true)}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+          <button
+            onClick={() => setIsOptionsOpen(!isOptionsOpen)}
+            className="text-base text-gray-500 px-2 py-1 ml-1 rounded hover:bg-gray-200 hover:text-gray-700"
+          >
+            <FontAwesomeIcon icon={faEllipsisVertical} />
+          </button>
+        </div>
+        {/* )} */}
         <span
           className={`flex items-center h-6 px-3 text-xs font-semibold  rounded-full`} //${teamColor}
         >
-          {team.toUpperCase()}
+          {/* {team.toUpperCase()} */}
+          {title}
         </span>
         <h4 className="mt-3 text-sm font-medium">{title}</h4>
         <div className="flex items-center w-full mt-3 text-xs font-medium text-gray-400">

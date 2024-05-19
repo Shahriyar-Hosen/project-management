@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 
-export const ProjectStatus: FC<any> = ({ title, item, addBtn }) => {
+type ITaskStatus = { title: string; item: number; addTaskBtn?: boolean };
+export const TaskStatus: FC<ITaskStatus> = ({ title, item, addTaskBtn }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -9,7 +10,7 @@ export const ProjectStatus: FC<any> = ({ title, item, addBtn }) => {
       <span className="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded bg-opacity-30">
         {item}
       </span>
-      {addBtn && (
+      {addTaskBtn && (
         <button
           onClick={() => setModalOpen(true)}
           className="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100"

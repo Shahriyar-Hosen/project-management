@@ -264,8 +264,6 @@ export const getAllBoardData = async ({ project }: { project: string }) => {
       },
     ];
 
-    console.log("🚀 ~ getAllBoardData ~ result:", result);
-
     return result;
   } catch (error: any) {
     console.log("🚀 ~ line: 39 ~ login action error ~:-", error);
