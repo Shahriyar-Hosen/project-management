@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, dynamicColor } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { getProject, getRecentActivities } from "@/server/actions";
 import { useStores } from "@/stores/provider";
 import { useQuery } from "@tanstack/react-query";
@@ -149,7 +149,7 @@ export const ProjectHead = () => {
               {recentData?.map(({ title, description, status, date }, i) => (
                 <div
                   key={i}
-                  className="flex justify-between items-center gap-2.5 bg-cyan-100/60 p-2 rounded-lg"
+                  className="flex justify-between items-center gap-2.5 bg-white/40 p-2 rounded-lg"
                 >
                   <div className="space-y-1">
                     <h1 className="font-semibold capitalize">{title}</h1>
@@ -160,7 +160,19 @@ export const ProjectHead = () => {
                     </p>
                   </div>
                   <div className="flex flex-col justify-center items-end gap-1">
-                    <button className="bg-green-400/50 rounded-full px-2.5 text-sm font-semibold text-green-700">
+                    <button
+                      className={cn(
+                        "rounded-full px-2.5 text-sm font-semibold",
+                        {
+                          "text-pink-600 bg-pink-100": status === "Backlog",
+                          "text-orange-600 bg-orange-100": status === "Ready",
+                          "text-yellow-600 bg-yellow-100": status === "Doing",
+                          "text-violet-600 bg-violet-100": status === "Review",
+                          "text-red-600 bg-red-100": status === "Blocked",
+                          "text-green-600 bg-green-100": status === "Done",
+                        }
+                      )}
+                    >
                       {status}
                     </button>
                     <p className="text-sm">

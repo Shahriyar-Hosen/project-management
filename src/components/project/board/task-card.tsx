@@ -1,6 +1,7 @@
 import { DeleteModal } from "@/components/common";
 import { cn } from "@/lib/utils";
 import { deleteTask } from "@/server/actions";
+import { useStores } from "@/stores/provider";
 import { faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
@@ -13,10 +14,9 @@ export const TaskCard: FC<ITask & IRefetch> = (task) => {
 
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [isNotUser, setIsNotUser] = useState(false);
   const { avatar, color, deadline, description, email, title, refetch } = task;
 
-  //   const { search } = useSelector((state) => state.search) || {};
+  const { search } = useStores((state) => state);
 
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
@@ -31,12 +31,12 @@ export const TaskCard: FC<ITask & IRefetch> = (task) => {
   return (
     <>
       <div
-        className={`relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100`}
-        // ${ search &&
-        //     title.toLowerCase().includes(search.toLowerCase()) &&
-        //     "ring ring-violet-400"
-        //  }
-        // ref={dragRef}
+        className={cn(
+          "relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100",
+          search &&
+            title.toLowerCase().includes(search.toLowerCase()) &&
+            "ring ring-violet-400"
+        )}
       >
         <div className="absolute top-0 right-0 hidden items-center mt-3 mr-2 group-hover:flex">
           <button
@@ -108,7 +108,6 @@ export const TaskCard: FC<ITask & IRefetch> = (task) => {
           deleteHandler={deleteHandler}
           setDeleteModal={setDeleteModal}
           message="Are you sure you want to delete this project?"
-          isNotUser={isNotUser}
         />
       )}
     </>

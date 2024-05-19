@@ -41,7 +41,7 @@ export const ProjectItems: FC<
     );
   } else if (!isLoading && !isError && projects.length > 0) {
     content = (
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 px-10 mt-4 gap-6 overflow-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 px-10 mt-4 gap-6 overflow-auto h-fit pb-10">
         {projects.map((team) => (
           <ProjectItem key={team.id} {...team} refetch={refetch} />
         ))}

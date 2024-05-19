@@ -279,14 +279,10 @@ interface IUpdateTask {
 }
 export const updateTask = async ({ id, ...data }: IUpdateTask) => {
   try {
-    console.log("🚀 ~ updateTask ~ data:", data);
-
     const result = await db.task.update({
       where: { id },
-      data: data,
+      data: { ...data, date: new Date() },
     });
-
-    console.log("🚀 ~ updateTask ~ result:", result);
 
     return result;
   } catch (error: any) {
@@ -299,7 +295,7 @@ export const updateTaskStatus = async ({ id, ...data }: UpdateTaskStatus) => {
   try {
     const result = await db.task.update({
       where: { id },
-      data: data,
+      data: { ...data, date: new Date() },
     });
 
     return result;
@@ -315,7 +311,7 @@ export const updateTaskEmail = async ({ id, email }: UpdateTaskEmail) => {
     if (user) {
       const result = await db.task.update({
         where: { id },
-        data: { email: user.email, avatar: user.avatar },
+        data: { email: user.email, avatar: user.avatar, date: new Date() },
       });
       return result;
     }

@@ -66,10 +66,6 @@ export const EditTask: FC<IEditTask> = ({
     setLoading(false);
   };
 
-  const handleDelete = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
-
   return (
     <Drawer
       title={
@@ -159,16 +155,6 @@ export const EditTask: FC<IEditTask> = ({
         </Button>
       </form>
 
-      <form onSubmit={handleDelete}>
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="w-full disabled:bg-opacity-90 disabled:cursor-not-allowed bg-red-500"
-          disabled={!enable || loading}
-        >
-          Update
-        </Button>
-      </form>
       {taskExist && (
         <ErrorMessage message={"Task already exist! Try another name."} />
       )}

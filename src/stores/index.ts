@@ -13,7 +13,6 @@ export const createStores = (initState: ProjectState = defaultInitState) =>
       ...initState,
       login: (user) => set(() => ({ user: user })),
       logout: logout,
-      decrementCount: () => set((state) => ({ count: state.count - 1 })),
-      incrementCount: () => set((state) => ({ count: state.count + 1 })),
+      setSearch: (value) => set(() => ({ search: value })),
     };
   });

@@ -10,12 +10,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
-  const { logout } = useStores((state) => state);
+  const { logout, setSearch } = useStores((state) => state);
   const router = useRouter();
   const { name = "User Name", avatar = "/logo.png" } = useCurrentUser() || {};
 
   const filterBySearch = (value: string) => {
-    console.log(value);
+    setSearch(value);
   };
 
   const handleSearch = debounce((value) => filterBySearch(value), 500);
